@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Capas del proyecto
 
-## Getting Started
+### Capas conceptuales finales
+1. **Capa Global (World / Engine)**
+2. **Capa de Actos (Narrative)**
+3. **Capa de Elementos (Scene Objects)**
+4. **Capa de Pinceles (Render Primitives)**
 
-First, run the development server:
+## Capa Global
+Se encarga de tener el control. No el contenido.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Responsabilidad
+* Canvas global (Three.js)
+* Scroll (Lenis)
+* Timeline maestro (GSAP / ScrollTrigger)
+* Estado global del “mundo” (acto actual, progreso)
+* Postprocessing
+* Audio (Howler)
+
+### Ejemplo de responsabilidades
+* Inicializar `<Canvas />`
+* Conectar scroll → tiempo
+* Decidir **cuándo empieza y termina cada acto**
+* No dibuja nada
+
+## Capa de Actos
+Aquí se cuenta la historia.
+
+### Responsabilidad
+* Cada Acto es un módulo independiente
+* Orquesta sus elementos internos
+* Define:
+  * cuándo aparecen
+  * cómo se mueven
+  * cómo reaccionan al scroll
+* Un acto solo conoce:
+  * su timeline
+  * sus elementos
+  * su rango de scroll
+
+## Capa de Elementos
+Aquí viven los elementos indepenientes de cada acto
+
+### Responsabilidad
+* Representar entidades visuales concretas
+* Tener su propio estado interno
+* Exponer hooks para animación
+
+### Ejemplo
+* Barco
+* Lluvia
+* Nubes
+* Fondo
+* Luz / Sol
+
+## Capa de Pinceles
+Aquí viven los pinceles que se usan para dibujar los elementos
+
+### Responsabilidad
+* Funciones reutilizables de dibujo
+* Shaders
+* Trazos
+* Arcos
+* Ruido
+* Coloreado
+* Distorsión
+
+## Arquitectura
+* Modular
+* Declarativa
+
 ```
+src/
+│
+├── app/
+│   └── page.tsx
+│
+├── world/                # Capa Global
+│   ├── World.tsx
+│   ├── ScrollManager.ts
+│   ├── Timeline.ts
+│   ├── AudioManager.ts
+│   └── PostProcessing.tsx
+│
+├── acts/                 # Capa de Actos
+│   ├── Intro/
+│   │   ├── IntroAct.tsx
+│   │   └── intro.timeline.ts
+│   ├── Act01/
+│   ├── Act02/
+│   └── ...
+│
+├── elements/             # Capa de Elementos
+│   ├── Boat.tsx
+│   ├── Rain.tsx
+│   ├── Clouds.tsx
+│   ├── Sun.tsx
+│   └── Background.tsx
+│
+├── brushes/              # Capa de Pinceles
+│   ├── useStroke.ts
+│   ├── useArc.ts
+│   ├── useNoise.ts
+│   ├── useColor.ts
+│   └── shaders/
+│
+├── hooks/
+│   ├── useScroll.ts
+│   ├── useActProgress.ts
+│   └── useTimeline.ts
+│
+└── config/
+    ├── acts.config.ts
+    └── world.config.ts
+```
+## Relación con las librerías
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### GSAP + ScrollTrigger
+* Vive en **World**
+* Los actos solo **registran timelines**
+* ScrollTrigger nunca toca elementos directamente
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### @react-three/fiber + drei
+* Canvas único
+* Elementos como componentes declarativos
+* Pinceles encapsulan la complejidad de Three
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Lenis
+* Controla el tiempo, no el scroll real
+* Scroll → progreso → GSAP
 
-## Learn More
+### Howler
+* Audio sincronizado por acto
+* No mezclado con UI
 
-To learn more about Next.js, take a look at the following resources:
+### Postprocessing
+* Global
+* Afecta al mundo, no a los actos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Flujo de trabajo
+1. El scroll controla el tiempo.
+2. El tiempo controla los actos.
+3. Los actos controlan los elementos.
+4. Los elementos usan pinceles.
