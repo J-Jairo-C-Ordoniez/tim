@@ -1,11 +1,11 @@
 import Head from '@/components/home/header/Head'
-import Hero from '@/components/home/main/Hero'
+import Main from '@/components/home/main/Main'
 
 export default function Home() {
   return (
-    <main>
+    <div className="bg-background relative h-screen w-screen text-foreground overflow-hidden select-none">
       <Head />
-      {/* <Hero /> */}
-    </main>
+      <Main />
+    </div>
   )
 }
