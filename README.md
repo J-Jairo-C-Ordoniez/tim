@@ -146,11 +146,15 @@ src/
 │   └── Background.tsx
 │
 ├── brushes/              # Capa de Pinceles
-│   ├── useStroke.ts
-│   ├── useArc.ts
-│   ├── useNoise.ts
-│   ├── useColor.ts
-│   └── shaders/
+│   ├── stroke/           # Pinceles de trazo
+│   │   ├── LineBrush.js
+│   │   ├── ArcBrush.js
+│   │   └── index.js
+│   │
+│   ├── fill/          # Pinceles de fondo / atmósfera
+│   │   ├── WashBrush.js
+│   │   └── index.ts
+│   |__ index.js       # indice de pinceles
 │
 ├── hooks/
 │   ├── useScroll.ts

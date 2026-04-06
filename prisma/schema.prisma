@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Contribution {
+  id            Int      @id @default(autoincrement()) @map("contributionId")
+  imageUrl      String   @db.VarChar(255)
+  thumbnailUrl  String   @db.VarChar(255)
+  name          String   @db.VarChar(50)
+  message       String   @db.Text
+  status        Status   @default(pending)
+  cellId        Int?     @unique @map("cellPosition")
+  cell          Cell?    @relation(fields: [cellId], references: [id])
+  createdAt     DateTime @default(now())
+
+  @@map("contributions")
+}
+
+model Cell {
+  id            Int            @id @default(autoincrement()) @map("cellId")
+  x             Int
+  y             Int
+  contribution  Contribution?
+  createdAt     DateTime       @default(now())
+
+  @@map("cell")
+}
+
+enum Status {
+  pending
+  approved
+  rejected
+}
