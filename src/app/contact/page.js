@@ -1,5 +1,3 @@
-'use client'
-
 import Head from '@/components/home/header/Head'
 import Main from '@/components/contact/main/Main'
 

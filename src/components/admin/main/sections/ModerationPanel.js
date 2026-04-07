@@ -36,8 +36,8 @@ export default function ModerationPanel() {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center py-20 gap-4">
-                <div className="w-10 h-px bg-white/20 animate-pulse" />
-                <p className="text-[10px] tracking-[0.4em] uppercase text-white/30 font-medium">
+                <div className="w-10 h-px bg-primary/20 animate-pulse" />
+                <p className="text-xs tracking-[0.4em] uppercase text-primary/40 font-medium">
                     Loading entries
                 </p>
             </div>

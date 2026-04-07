@@ -1,38 +1,12 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import AdminLayout from '@/components/admin/layout/AdminLayout'
-import OTPGate from '@/components/admin/sections/OTPGate'
-import ModerationPanel from '@/components/admin/sections/ModerationPanel'
+import Head from '@/components/admin/header/Head'
+import Main from '@/components/admin/main/Main'
 
 export default function AdminPage() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [token, setToken] = useState(null)
-
-    // Check session storage on mount
-    useEffect(() => {
-        const storedToken = sessionStorage.getItem('admin_token')
-        if (storedToken) {
-            setToken(storedToken)
-            setIsAuthenticated(true)
-        }
-    }, [])
-
-    const handleVerify = (newToken) => {
-        sessionStorage.setItem('admin_token', newToken)
-        setToken(newToken)
-        setIsAuthenticated(true)
-    }
 
     return (
-        <AdminLayout>
-            {!isAuthenticated ? (
-                <div className="flex items-center justify-center min-h-[60vh]">
-                    <OTPGate onVerify={handleVerify} />
-                </div>
-            ) : (
-                <ModerationPanel token={token} />
-            )}
-        </AdminLayout>
+        <div className="bg-background h-screen w-screen text-foreground overflow-hidden select-none">
+            <Head />
+            <Main />
+        </div>
     )
 }
