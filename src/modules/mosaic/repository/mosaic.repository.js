@@ -1,13 +1,16 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/infrastucture/prisma";
 
 export const mosaicRepository = {
   getApprovedContributions: async () => {
     return await prisma.contribution.findMany({
       where: {
-        status: "approved",
+        status: { in: ["approved", "pending"] },
       },
       include: {
         cell: true,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
   },
