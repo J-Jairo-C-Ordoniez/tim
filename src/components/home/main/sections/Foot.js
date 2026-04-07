@@ -5,7 +5,7 @@ export default function Foot({ progression = 10, totalSlots = 120, setIsUploadMo
         <footer className="w-full bg-background font-inter">
             <div className="container mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
                 <section className="space-y-2 w-fit text-center">
-                    <h1 className="text-8xl font-bold tracking-widest uppercase text-primary">
+                    <h1 className="text-5xl md:text-8xl font-black tracking-tighter uppercase italic text-primary">
                         TIM
                     </h1>
 
