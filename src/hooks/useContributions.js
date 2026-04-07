@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 export function useContributions() {
@@ -6,7 +6,7 @@ export function useContributions() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchContributions = async () => {
+  const fetchContributions = useCallback(async () => {
     try {
       const response = await axios.get("/api/mosaic");
       setContributions(response.data.contributions);
@@ -16,11 +16,11 @@ export function useContributions() {
       setError(err.message);
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchContributions();
-  }, []);
+  }, [fetchContributions]);
 
   return { contributions, loading, error, refresh: fetchContributions };
 }

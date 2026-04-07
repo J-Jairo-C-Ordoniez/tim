@@ -18,8 +18,7 @@ export const authService = {
     const adminPhone = process.env.ADMIN_WHATSAPP;
 
     otpStore.set('admin_otp', { code: otp, expiresAt });
-
-    console.log(`[AUTH] Generated OTP for admin: ${otp}`);
+    // Admin OTP generated successfully
 
     try {
       if (process.env.TWILIO_SID && process.env.TWILIO_AUTH_TOKEN && adminPhone) {

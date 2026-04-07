@@ -90,7 +90,7 @@ export default function ParticleCanvas({ imageUrl }) {
         })
     }, [])
 
-    const animate = useCallback((time) => {
+    const animate = useCallback(function loop(time) {
         const canvas = canvasRef.current
         if (!canvas) return
         const ctx = canvas.getContext('2d')
@@ -141,7 +141,7 @@ export default function ParticleCanvas({ imageUrl }) {
             ctx.shadowBlur = 0
         })
 
-        animRef.current = requestAnimationFrame(animate)
+        animRef.current = requestAnimationFrame(loop)
     }, [])
 
     useEffect(() => {
