@@ -39,7 +39,7 @@ export default function ContactContent() {
                             href="/"
                             className="text-xs tracking-widest text-primary/40 uppercase hover:text-primary transition-all underline underline-offset-8"
                         >
-                            The Foundation
+                            TIM | COLLECTIVE SILHOUETTE
                         </Link>
                     </div>
                 </div>
