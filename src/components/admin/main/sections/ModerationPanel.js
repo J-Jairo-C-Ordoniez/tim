@@ -46,16 +46,16 @@ export default function ModerationPanel() {
 
     return (
         <section className="w-full space-y-12 animate-in fade-in duration-700">
-            <header className="flex justify-between items-end border-b border-white/5 pb-8 overflow-hidden">
+            <header className="flex justify-between items-center border-b border-white/5 pb-8 overflow-hidden">
                 <div className="space-y-1">
-                    <p className="text-[9px] tracking-[0.35em] uppercase text-white/30 font-medium">
+                    <p className="text-xs tracking-widest uppercase text-primary/30 font-medium">
                         System Status
                     </p>
-                    <h2 className="text-xl font-light tracking-widest text-white/90 uppercase">
-                        Pending Moderation
+                    <h2 className="text-xl font-light tracking-widest text-primary/90 uppercase">
+                        Pending Contributions
                     </h2>
                 </div>
-                <div className="text-[10px] tracking-[0.3em] font-medium text-white/40 uppercase">
+                <div className="text-xs tracking-widest font-medium text-primary/40 uppercase">
                     {pending.length} entries awaiting
                 </div>
             </header>
@@ -71,11 +71,11 @@ export default function ModerationPanel() {
                     ))}
                 </div>
             ) : (
-                <div className="py-40 text-center space-y-4 bg-white/1 border border-dashed border-white/5">
-                    <p className="text-[10px] tracking-[0.5em] uppercase text-white/20">
+                <div className="py-40 text-center space-y-4 bg-primary/1 border border-dashed border-primary/5">
+                    <p className="text-xs tracking-widest uppercase text-primary/50">
                         Terminal Clear
                     </p>
-                    <p className="text-[8px] tracking-widest text-white/10 uppercase">
+                    <p className="text-xs tracking-widest text-primary/50 uppercase">
                         All contributions processed
                     </p>
                 </div>
