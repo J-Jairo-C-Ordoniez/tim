@@ -4,7 +4,6 @@ import React, { useRef, useMemo, useState, useEffect } from 'react'
 import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useCursor, Html } from '@react-three/drei'
-import { generateSilhouettePoint } from '@/lib/utils'
 
 
 
@@ -206,7 +205,7 @@ export default function AuraCloud({ contributions = [], onSelect }) {
           particles[hovered].y + 0.2,
           particles[hovered].z
         ]}>
-          <div className="aura-tooltip opacity-0 animate-in fade-in flex flex-col items-start bg-[#080808]/90 p-2 backdrop-blur-md border border-white/10">
+          <div className="aura-tooltip opacity-0 animate-in fade-in flex flex-col items-start bg-background/90 p-2 backdrop-blur-md border border-white/10">
             <div className="text-[0.4rem] text-white/50 font-bold tracking-[0.2em]">CLICK TO VIEW MEMORY</div>
             <div className="text-xs font-bold text-white uppercase">{particles[hovered].name}</div>
           </div>

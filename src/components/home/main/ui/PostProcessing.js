@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 

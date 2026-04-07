@@ -3,7 +3,7 @@
 export default function Foot({ progression = 10, totalSlots = 120, setIsUploadModalOpen }) {
     return (
         <footer className="w-full bg-background font-inter">
-            <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
+            <div className="container mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
                 <section className="space-y-2 w-fit text-center">
                     <h1 className="text-8xl font-bold tracking-widest uppercase text-primary">
                         TIM
@@ -16,7 +16,7 @@ export default function Foot({ progression = 10, totalSlots = 120, setIsUploadMo
 
                 <section className="w-fit">
                     <button
-                        className="cursor-pointer px-10 py-4 border border-primary/10 bg-primary/2 hover:bg-primary/5 transition-all text-xs tracking-widest uppercase font-medium backdrop-blur-sm"
+                        className="text-secondary cursor-pointer px-10 py-4 border border-primary/10 bg-primary/2 hover:bg-primary/5 transition-all text-xs tracking-widest uppercase font-medium backdrop-blur-sm"
                         onClick={() => setIsUploadModalOpen(true)}
                     >
                         Contribute Memory
