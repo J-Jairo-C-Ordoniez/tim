@@ -30,9 +30,7 @@ function parseImageToParticles(imageSrc, density = 60, callback) {
                 const a = data[index + 3]
                 const brightness = (r + g + b) / 3
 
-                // Sharp selection: more particles at higher resolution for better silhouette definition
                 if (a > 50 && brightness > 8 && Math.random() > 0.15) {
-                    // Boost colors toward white for visibility
                     const boost = 0.5
                     const br = Math.round(Math.min(255, r + (255 - r) * boost))
                     const bg = Math.round(Math.min(255, g + (255 - g) * boost))
@@ -47,7 +45,6 @@ function parseImageToParticles(imageSrc, density = 60, callback) {
                         homeY: 0,
                         vx: 0,
                         vy: 0,
-                        // Smaller particles allow for higher detail/sharpness
                         size: 1.0 + Math.random() * 1.2,
                         opacity: 0.75 + (brightness / 255) * 0.25,
                         color: `rgba(${br}, ${bg}, ${bb}, `,
@@ -72,14 +69,12 @@ export default function ParticleCanvas({ imageUrl }) {
     const animRef = useRef(null)
     const imageSrcRef = useRef(null)
 
-    // Resize handler - recalculate home positions
     const recalcHomePositions = useCallback(() => {
         const canvas = canvasRef.current
         if (!canvas || particlesRef.current.length === 0) return
         const W = canvas.width
         const H = canvas.height
 
-        // Small padding so the shape fills most of the canvas
         const padX = W * 0.05
         const padY = H * 0.05
         const fieldW = W - padX * 2
@@ -88,7 +83,6 @@ export default function ParticleCanvas({ imageUrl }) {
         particlesRef.current.forEach(p => {
             p.homeX = padX + p.normX * fieldW
             p.homeY = padY + p.normY * fieldH
-            // Scatter in from nearby on first load
             if (p.x === 0 && p.y === 0) {
                 p.x = p.homeX + (Math.random() - 0.5) * 60
                 p.y = p.homeY + (Math.random() - 0.5) * 60
@@ -96,7 +90,6 @@ export default function ParticleCanvas({ imageUrl }) {
         })
     }, [])
 
-    // Animation loop
     const animate = useCallback((time) => {
         const canvas = canvasRef.current
         if (!canvas) return
@@ -113,7 +106,6 @@ export default function ParticleCanvas({ imageUrl }) {
         ctx.clearRect(0, 0, W, H)
 
         particlesRef.current.forEach(p => {
-            // Mouse repulsion
             const dx = p.x - mx
             const dy = p.y - my
             const dist = Math.sqrt(dx * dx + dy * dy)
@@ -124,29 +116,22 @@ export default function ParticleCanvas({ imageUrl }) {
                 p.vy += (dy / dist) * force * REPEL_STRENGTH
             }
 
-            // Spring back to home
             p.vx += (p.homeX - p.x) * RETURN_STRENGTH
             p.vy += (p.homeY - p.y) * RETURN_STRENGTH
 
-            // Subtle shimmer drift
             const shimmer = Math.sin(time * 0.001 * p.speed + p.phase) * 0.3
             p.vx += shimmer * 0.05
             p.vy += shimmer * 0.05
 
-            // Apply friction
             p.vx *= FRICTION
             p.vy *= FRICTION
 
-            // Move
             p.x += p.vx
             p.y += p.vy
 
-            // Slight glow when mouse is near
             const proximity = dist < REPEL_RADIUS ? 1 + (1 - dist / REPEL_RADIUS) * 0.4 : 1
             const shimmerDelta = Math.sin(time * 0.002 * p.speed + p.phase) * 0.07
             const finalOpacity = Math.min(1, p.opacity * proximity + shimmerDelta)
-
-            // Draw particle with a soft glow shadow
             ctx.shadowBlur = 4
             ctx.shadowColor = `${p.color}0.4)`
             ctx.beginPath()
@@ -159,12 +144,9 @@ export default function ParticleCanvas({ imageUrl }) {
         animRef.current = requestAnimationFrame(animate)
     }, [])
 
-    // Load & re-parse when imageUrl changes
     useEffect(() => {
         if (!imageUrl || imageUrl === imageSrcRef.current) return
         imageSrcRef.current = imageUrl
-
-        // Cancel running animation
         if (animRef.current) {
             cancelAnimationFrame(animRef.current)
             animRef.current = null
@@ -175,7 +157,6 @@ export default function ParticleCanvas({ imageUrl }) {
         parseImageToParticles(imageUrl, 120, (pts) => {
             particlesRef.current = pts
             recalcHomePositions()
-            // Restart animation
             animRef.current = requestAnimationFrame(animate)
         })
 
@@ -184,7 +165,6 @@ export default function ParticleCanvas({ imageUrl }) {
         }
     }, [imageUrl, animate, recalcHomePositions])
 
-    // Handle canvas sizing
     useEffect(() => {
         const canvas = canvasRef.current
         if (!canvas) return
@@ -197,7 +177,6 @@ export default function ParticleCanvas({ imageUrl }) {
         })
 
         observer.observe(canvas)
-        // Initial size
         const { width, height } = canvas.getBoundingClientRect()
         canvas.width = width || 600
         canvas.height = height || 500
@@ -205,7 +184,6 @@ export default function ParticleCanvas({ imageUrl }) {
         return () => observer.disconnect()
     }, [recalcHomePositions])
 
-    // Mouse tracking
     const handleMouseMove = useCallback((e) => {
         const canvas = canvasRef.current
         if (!canvas) return

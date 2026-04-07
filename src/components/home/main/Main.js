@@ -26,9 +26,9 @@ export default function Main() {
     return (
         <main className="w-full h-[calc(100vh-64px)] bg-background font-inter box-border overflow-hidden flex flex-col">
             <section className="relative flex-1 w-full overflow-hidden">
-                {/* <AuraCloud
+                <AuraCloud
                     selectedContribution={selectedContribution}
-                /> */}
+                />
 
                 <Modal
                     isOpen={isUploadModalOpen}
