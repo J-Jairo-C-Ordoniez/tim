@@ -165,7 +165,7 @@ export default function LegacySequence({ contributions, withAudio }) {
 
                             <div className="space-y-6 max-w-xl mx-auto lg:mx-0">
                                 <div className="flex items-center gap-6 justify-center lg:justify-start">
-                                    <div className="h-[1px] w-12 bg-white/30" />
+                                    <div className="h-px w-12 bg-white/30" />
                                     <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-white/50">Shared Light</p>
                                 </div>
                                 <p className="text-xl md:text-3xl lg:text-4xl font-light italic leading-tight text-white/90 tracking-tight">
@@ -183,13 +183,13 @@ export default function LegacySequence({ contributions, withAudio }) {
 
                 {/* Final Gratitude Overlay */}
                 {showFinalMessage && (
-                    <div className="absolute inset-0 z-[110] bg-black/98 flex flex-col items-center justify-center text-center p-10 animate-in fade-in zoom-in-95 duration-[1500ms]">
+                    <div className="absolute inset-0 z-110 bg-black/98 flex flex-col items-center justify-center text-center p-10 animate-in fade-in zoom-in-95 duration-1500">
                         <div className="space-y-12 max-w-5xl px-6">
                             <p className="text-[11px] tracking-[1em] uppercase text-primary font-black">Tribute Complete</p>
                             <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter text-white uppercase leading-[0.80]">
                                 FOREVER <br/>TIM
                             </h2>
-                            <div className="w-40 h-[1px] bg-white/40 mx-auto" />
+                            <div className="w-40 h-px bg-white/40 mx-auto" />
                             <p className="text-xl md:text-3xl font-light text-white/70 tracking-[0.15em] leading-relaxed max-w-3xl mx-auto italic">
                                 Thank you for adding your light to the collective silhouette. <br/>
                                 Tim Bergling (1989 — 2018)
