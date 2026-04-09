@@ -1,4 +1,4 @@
-import { uploadController } from "@/modules/upload/controller/upload.controller";
+import { uploadController } from "@/modules/upload/upload.controller";
 
 export async function POST(request) {
   return await uploadController.upload(request);

@@ -12,7 +12,6 @@ export function useContributions() {
       setContributions(response.data.contributions);
       setLoading(false);
     } catch (err) {
-      console.error("Error fetching contributions:", err);
       setError(err.message);
       setLoading(false);
     }
