@@ -1,11 +1,6 @@
-import twilio from 'twilio';
+import { client } from '@/infrastucture/twilio';
 
 const otpStore = new Map();
-
-const client = twilio(
-  process.env.TWILIO_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
 
 export const authService = {
   generateOTP: () => {
@@ -14,16 +9,15 @@ export const authService = {
 
   sendOTP: async () => {
     const otp = authService.generateOTP();
-    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+    const expiresAt = Date.now() + 10 * 60 * 1000;
     const adminPhone = process.env.ADMIN_WHATSAPP;
 
     otpStore.set('admin_otp', { code: otp, expiresAt });
-    // Admin OTP generated successfully
 
     try {
       if (process.env.TWILIO_SID && process.env.TWILIO_AUTH_TOKEN && adminPhone) {
         await client.messages.create({
-          from: `whatsapp:+14155238886`, // Twilio Sandbox Number
+          from: `whatsapp:+14155238886`,
           to: `whatsapp:${adminPhone}`,
           body: `Verification Code for TIM Admin: ${otp}`
         });
@@ -48,7 +42,6 @@ export const authService = {
     
     if (stored.code === code) {
       otpStore.delete('admin_otp');
-      // Create a simple session token (in a real app, use JWT)
       const token = Buffer.from(`admin_${Date.now()}`).toString('base64');
       return { success: true, token };
     }
