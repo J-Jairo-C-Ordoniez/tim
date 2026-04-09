@@ -19,7 +19,7 @@ export default function Main() {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
     const [isLegacyActive, setIsLegacyActive] = useState(false)
     const [withAudio, setWithAudio] = useState(true)
-    const progression = contributions.length
+    const progression = 120 // Forzado a 120 para pruebas de producción
     const totalSlots = 120
 
     useEffect(() => {
