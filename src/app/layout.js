@@ -39,8 +39,13 @@ export const metadata = {
     description: "Honoring Tim Bergling through a collective digital silhouette. Share your light.",
     images: ["/og-image.png"],
   },
+};
+
+export const viewport = {
   themeColor: "#050505",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }) {
