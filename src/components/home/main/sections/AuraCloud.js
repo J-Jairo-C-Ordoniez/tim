@@ -7,35 +7,38 @@ const ParticleCanvas = dynamic(
     { ssr: false }
 )
 
-export default function AuraCloud({ selectedContribution }) {
+export default function AuraCloud({ selectedContribution, totalContributions }) {
     const hasSelection = !!selectedContribution?.imageUrl
 
     return (
-        <section className="w-full h-full flex items-stretch">
+        <section className="w-full h-full flex flex-col lg:flex-row items-stretch overflow-y-auto lg:overflow-hidden">
             {hasSelection ? (
                 <>
-                    <div className="flex-1 h-full animate-in fade-in duration-700">
-                        <ParticleCanvas imageUrl={selectedContribution.imageUrl} />
+                    <div className="w-full h-[50vh] lg:h-full lg:flex-1 animate-in fade-in duration-700">
+                        <ParticleCanvas 
+                            imageUrl={selectedContribution.imageUrl} 
+                            totalContributions={totalContributions}
+                        />
                     </div>
                     <div
                         key={selectedContribution.id}
-                        className="w-1/3 h-full flex flex-col justify-center px-10 gap-6 animate-in fade-in slide-in-from-right-4 duration-700"
+                        className="w-full lg:w-1/3 h-auto lg:h-full flex flex-col justify-center px-6 lg:px-10 py-10 lg:py-0 gap-6 animate-in fade-in slide-in-from-bottom-4 lg:slide-in-from-right-4 duration-700"
                     >
-                        <div className="space-y-1 pt-10 border-t border-primary/4">
-                            <p className="text-xs tracking-widest uppercase text-secondary/30 font-light">
+                        <div className="space-y-1 pt-6 lg:pt-10 border-t border-primary/4">
+                            <p className="text-[10px] lg:text-xs tracking-widest uppercase text-secondary/30 font-light">
                                 Memory by
                             </p>
-                            <p className="text-xl font-medium tracking-widest text-primary/90 uppercase">
+                            <p className="text-lg lg:text-xl font-medium tracking-widest text-primary/90 uppercase">
                                 {selectedContribution.name}
                             </p>
                         </div>
 
                         {selectedContribution.message && (
-                            <blockquote className="space-y-2 pb-10 border-b border-primary/4">
-                                <p className="text-xs tracking-widest uppercase text-secondary/30 font-light">
+                            <blockquote className="space-y-2 pb-6 lg:pb-10 border-b border-primary/4">
+                                <p className="text-[10px] lg:text-xs tracking-widest uppercase text-secondary/30 font-light">
                                     Message
                                 </p>
-                                <p className="text-sm font-light leading-relaxed text-primary/80 italic">
+                                <p className="text-xs lg:text-sm font-light leading-relaxed text-primary/80 italic">
                                     "{selectedContribution.message}"
                                 </p>
                             </blockquote>

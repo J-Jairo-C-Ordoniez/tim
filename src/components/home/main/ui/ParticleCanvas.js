@@ -1,8 +1,14 @@
 'use client'
 
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { Object3D, Color, Vector3 } from 'three'
+import gsap from 'gsap'
 
-function parseImageToParticles(imageSrc, density = 60, callback) {
+const tempObject = new Object3D()
+const tempColor = new Color()
+
+function getPixelData(imageSrc, density = 80, callback) {
     const img = new Image()
     img.crossOrigin = 'Anonymous'
     img.src = imageSrc
@@ -18,7 +24,6 @@ function parseImageToParticles(imageSrc, density = 60, callback) {
 
         const imageData = ctx.getImageData(0, 0, width, height)
         const data = imageData.data
-
         const particles = []
 
         for (let y = 0; y < height; y++) {
@@ -28,183 +33,155 @@ function parseImageToParticles(imageSrc, density = 60, callback) {
                 const g = data[index + 1]
                 const b = data[index + 2]
                 const a = data[index + 3]
-                const brightness = (r + g + b) / 3
+                const br = (r + g + b) / 3
 
-                if (a > 50 && brightness > 8 && Math.random() > 0.15) {
-                    const boost = 0.5
-                    const br = Math.round(Math.min(255, r + (255 - r) * boost))
-                    const bg = Math.round(Math.min(255, g + (255 - g) * boost))
-                    const bb = Math.round(Math.min(255, b + (255 - b) * boost))
-
+                if (a > 120 && br > 5) {
                     particles.push({
-                        normX: x / width,
-                        normY: y / height,
-                        x: 0,
-                        y: 0,
-                        homeX: 0,
-                        homeY: 0,
-                        vx: 0,
-                        vy: 0,
-                        size: 1.0 + Math.random() * 1.2,
-                        opacity: 0.75 + (brightness / 255) * 0.25,
-                        color: `rgba(${br}, ${bg}, ${bb}, `,
+                        normX: (x / width) - 0.5,
+                        normY: 0.5 - (y / height),
+                        r: r / 255,
+                        g: g / 255,
+                        b: b / 255,
+                        size: 0.9 + Math.random() * 0.2,
                         phase: Math.random() * Math.PI * 2,
-                        speed: 0.4 + Math.random() * 0.6,
+                        speed: 0.5 + Math.random() * 0.5,
                     })
                 }
             }
         }
-
         callback(particles)
-    }
-    img.onerror = () => {
-        callback([])
     }
 }
 
-export default function ParticleCanvas({ imageUrl }) {
-    const canvasRef = useRef(null)
-    const particlesRef = useRef([])
-    const mouseRef = useRef({ x: -9999, y: -9999 })
-    const animRef = useRef(null)
-    const imageSrcRef = useRef(null)
-
-    const recalcHomePositions = useCallback(() => {
-        const canvas = canvasRef.current
-        if (!canvas || particlesRef.current.length === 0) return
-        const W = canvas.width
-        const H = canvas.height
-
-        const padX = W * 0.05
-        const padY = H * 0.05
-        const fieldW = W - padX * 2
-        const fieldH = H - padY * 2
-
-        particlesRef.current.forEach(p => {
-            p.homeX = padX + p.normX * fieldW
-            p.homeY = padY + p.normY * fieldH
-            if (p.x === 0 && p.y === 0) {
-                p.x = p.homeX + (Math.random() - 0.5) * 60
-                p.y = p.homeY + (Math.random() - 0.5) * 60
-            }
-        })
-    }, [])
-
-    const animate = useCallback(function loop(time) {
-        const canvas = canvasRef.current
-        if (!canvas) return
-        const ctx = canvas.getContext('2d')
-        const W = canvas.width
-        const H = canvas.height
-        const mx = mouseRef.current.x
-        const my = mouseRef.current.y
-        const REPEL_RADIUS = 80
-        const REPEL_STRENGTH = 3.5
-        const RETURN_STRENGTH = 0.08
-        const FRICTION = 0.82
-
-        ctx.clearRect(0, 0, W, H)
-
-        particlesRef.current.forEach(p => {
-            const dx = p.x - mx
-            const dy = p.y - my
-            const dist = Math.sqrt(dx * dx + dy * dy)
-
-            if (dist < REPEL_RADIUS && dist > 0) {
-                const force = (REPEL_RADIUS - dist) / REPEL_RADIUS
-                p.vx += (dx / dist) * force * REPEL_STRENGTH
-                p.vy += (dy / dist) * force * REPEL_STRENGTH
-            }
-
-            p.vx += (p.homeX - p.x) * RETURN_STRENGTH
-            p.vy += (p.homeY - p.y) * RETURN_STRENGTH
-
-            const shimmer = Math.sin(time * 0.001 * p.speed + p.phase) * 0.3
-            p.vx += shimmer * 0.05
-            p.vy += shimmer * 0.05
-
-            p.vx *= FRICTION
-            p.vy *= FRICTION
-
-            p.x += p.vx
-            p.y += p.vy
-
-            const proximity = dist < REPEL_RADIUS ? 1 + (1 - dist / REPEL_RADIUS) * 0.4 : 1
-            const shimmerDelta = Math.sin(time * 0.002 * p.speed + p.phase) * 0.07
-            const finalOpacity = Math.min(1, p.opacity * proximity + shimmerDelta)
-            ctx.shadowBlur = 4
-            ctx.shadowColor = `${p.color}0.4)`
-            ctx.beginPath()
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
-            ctx.fillStyle = `${p.color}${finalOpacity.toFixed(3)})`
-            ctx.fill()
-            ctx.shadowBlur = 0
-        })
-
-        animRef.current = requestAnimationFrame(loop)
-    }, [])
+function Particles({ imageUrl, totalContributions }) {
+    const meshRef = useRef()
+    const [pts, setPts] = useState([])
+    const isConstellation = totalContributions >= 120
+    const { viewport, mouse: stateMouse } = useThree()
+    
+    const simulationRef = useRef({
+        positions: [],
+        velocities: [],
+        homes: [],
+        colors: [],
+        sizes: []
+    })
 
     useEffect(() => {
-        if (!imageUrl || imageUrl === imageSrcRef.current) return
-        imageSrcRef.current = imageUrl
-        if (animRef.current) {
-            cancelAnimationFrame(animRef.current)
-            animRef.current = null
-        }
+        getPixelData(imageUrl, 140, (particles) => {
+            const aspect = viewport.width / viewport.height
+            const scale = Math.min(viewport.width, viewport.height) * 0.85
+            
+            const newPositions = []
+            const newVelocities = []
+            const newHomes = []
+            const newColors = []
+            const newSizes = []
 
-        particlesRef.current = []
+            particles.forEach(p => {
+                const hX = p.normX * scale
+                const hY = p.normY * scale
+                const hZ = 0
 
-        parseImageToParticles(imageUrl, 120, (pts) => {
-            particlesRef.current = pts
-            recalcHomePositions()
-            animRef.current = requestAnimationFrame(animate)
+                newPositions.push(new Vector3(
+                    hX + (Math.random() - 0.5) * 2,
+                    hY + (Math.random() - 0.5) * 2,
+                    0
+                ))
+                newVelocities.push(new Vector3(0, 0, 0))
+                newHomes.push(new Vector3(hX, hY, hZ))
+                newColors.push(new Color(p.r, p.g, p.b))
+                newSizes.push(p.size)
+            })
+
+            simulationRef.current = {
+                positions: newPositions,
+                velocities: newVelocities,
+                homes: newHomes,
+                colors: newColors,
+                sizes: newSizes
+            }
+            setPts(particles)
         })
+    }, [imageUrl, viewport.width, viewport.height])
 
-        return () => {
-            if (animRef.current) cancelAnimationFrame(animRef.current)
+    useFrame((state) => {
+        if (!meshRef.current || pts.length === 0) return
+        
+        const { positions, velocities, homes, colors, sizes } = simulationRef.current
+        
+        if (positions.length < pts.length) return
+        
+        const time = state.clock.getElapsedTime()
+        const mx = stateMouse.x * viewport.width / 2
+        const my = stateMouse.y * viewport.height / 2
+        const mouseVec = new Vector3(mx, my, 0)
+
+        const REPEL_RADIUS = 1.2
+        const REPEL_STRENGTH = 0.04
+        const RETURN_STRENGTH = 0.12 
+        const FRICTION = 0.85
+
+        for (let i = 0; i < pts.length; i++) {
+            const pos = positions[i]
+            if (!pos) continue; 
+            
+            const vel = velocities[i]
+            const home = homes[i]
+            const size = sizes[i]
+
+            const target = home
+
+            const distToMouse = pos.distanceTo(mouseVec)
+            if (distToMouse < REPEL_RADIUS) {
+                const force = (REPEL_RADIUS - distToMouse) / REPEL_RADIUS
+                const dir = new Vector3().subVectors(pos, mouseVec).normalize()
+                vel.add(dir.multiplyScalar(force * REPEL_STRENGTH))
+            }
+
+            const returnForce = new Vector3().subVectors(target, pos).multiplyScalar(RETURN_STRENGTH)
+            vel.add(returnForce)
+
+            vel.x += Math.sin(time * 2 + i) * 0.002
+            vel.y += Math.cos(time * 2 + i) * 0.002
+            vel.multiplyScalar(FRICTION)
+            pos.add(vel)
+
+            const focusScale = distToMouse < REPEL_RADIUS ? 1 + (1 - distToMouse / REPEL_RADIUS) * 1.5 : 1
+            const finalSize = size * 0.04 * focusScale
+
+            tempObject.position.set(pos.x, pos.y, pos.z)
+            tempObject.scale.set(finalSize, finalSize, 1)
+            tempObject.updateMatrix()
+            meshRef.current.setMatrixAt(i, tempObject.matrix)
+
+            tempColor.copy(colors[i])
+            const luma = 0.2126 * tempColor.r + 0.7152 * tempColor.g + 0.0722 * tempColor.b
+            if (luma < 0.3) {
+                tempColor.multiplyScalar(1.2)
+            }
+            meshRef.current.setColorAt(i, tempColor)
         }
-    }, [imageUrl, animate, recalcHomePositions])
-
-    useEffect(() => {
-        const canvas = canvasRef.current
-        if (!canvas) return
-
-        const observer = new ResizeObserver(() => {
-            const { width, height } = canvas.getBoundingClientRect()
-            canvas.width = width
-            canvas.height = height
-            recalcHomePositions()
-        })
-
-        observer.observe(canvas)
-        const { width, height } = canvas.getBoundingClientRect()
-        canvas.width = width || 600
-        canvas.height = height || 500
-
-        return () => observer.disconnect()
-    }, [recalcHomePositions])
-
-    const handleMouseMove = useCallback((e) => {
-        const canvas = canvasRef.current
-        if (!canvas) return
-        const rect = canvas.getBoundingClientRect()
-        mouseRef.current = {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top,
-        }
-    }, [])
-
-    const handleMouseLeave = useCallback(() => {
-        mouseRef.current = { x: -9999, y: -9999 }
-    }, [])
+        
+        meshRef.current.instanceMatrix.needsUpdate = true
+        if (meshRef.current.instanceColor) meshRef.current.instanceColor.needsUpdate = true
+    })
 
     return (
-        <canvas
-            ref={canvasRef}
-            className="w-full h-full"
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            style={{ display: 'block' }}
-        />
+        <instancedMesh ref={meshRef} args={[null, null, pts.length]}>
+            <planeGeometry args={[1, 1]} />
+            <meshBasicMaterial transparent opacity={0.9} />
+        </instancedMesh>
+    )
+}
+
+export default function ParticleCanvas({ imageUrl, totalContributions }) {
+    return (
+        <div className="w-full h-full relative cursor-crosshair">
+            <Canvas camera={{ position: [0, 0, 8], fov: 40 }}>
+                <ambientLight intensity={0.5} />
+                <Particles imageUrl={imageUrl} totalContributions={totalContributions} />
+            </Canvas>
+        </div>
     )
 }

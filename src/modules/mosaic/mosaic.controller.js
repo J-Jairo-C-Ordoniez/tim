@@ -1,4 +1,4 @@
-import { mosaicService } from "../service/mosaic.service";
+import { mosaicService } from "./mosaic.service";
 
 export const mosaicController = {
   getMosaic: async () => {
