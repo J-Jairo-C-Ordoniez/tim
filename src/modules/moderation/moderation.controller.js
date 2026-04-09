@@ -1,4 +1,4 @@
-import { moderationService } from "../service/moderation.service";
+import { moderationService } from "./moderation.service";
 
 export const moderationController = {
   getPending: async () => {
