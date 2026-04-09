@@ -1,4 +1,4 @@
-import { mosaicController } from "@/modules/mosaic/controller/mosaic.controller";
+import { mosaicController } from "@/modules/mosaic/mosaic.controller";
 
 export async function GET() {
   return await mosaicController.getMosaic();

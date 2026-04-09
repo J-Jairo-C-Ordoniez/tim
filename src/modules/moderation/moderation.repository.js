@@ -25,14 +25,8 @@ export const moderationRepository = {
   },
 
   getNextAvailableCell: async () => {
-    // Basic logic to find the next available cell in a spiral or grid
-    // For now, we'll find the max cell id and increment, or find a hole.
-    // Or just create a new cell if it's dynamic.
-    
     const count = await prisma.cell.count();
-    // Simplified: we'll create cells as needed or use a predefined grid
-    // Let's create a new cell with spiral coordinates.
-    return count + 1; // Simplified for now
+    return count + 1;
   },
 
   createCell: async (x, y) => {

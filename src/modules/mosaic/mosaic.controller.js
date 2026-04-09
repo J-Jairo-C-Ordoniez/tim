@@ -6,7 +6,6 @@ export const mosaicController = {
       const data = await mosaicService.getMosaicData();
       return Response.json(data);
     } catch (error) {
-      console.error("Error in mosaicController.getMosaic:", error);
       return Response.json({ error: error.message }, { status: 500 });
     }
   },

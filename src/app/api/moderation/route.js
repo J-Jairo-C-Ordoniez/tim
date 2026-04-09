@@ -1,4 +1,4 @@
-import { moderationController } from "@/modules/moderation/controller/moderation.controller";
+import { moderationController } from "@/modules/moderation/moderation.controller";
 
 export async function GET() {
   return await moderationController.getPending();

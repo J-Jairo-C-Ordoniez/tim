@@ -1,4 +1,4 @@
-import { mosaicRepository } from "../repository/mosaic.repository";
+import { mosaicRepository } from "./mosaic.repository";
 
 export const mosaicService = {
   getMosaicData: async () => {
@@ -12,7 +12,6 @@ export const mosaicService = {
         cells,
       };
     } catch (error) {
-      console.error("Error in mosaicService.getMosaicData:", error);
       throw new Error("Failed to fetch mosaic data");
     }
   },
