@@ -19,7 +19,7 @@ export default function Main() {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
     const [isLegacyActive, setIsLegacyActive] = useState(false)
     const [withAudio, setWithAudio] = useState(true)
-    const progression = 120 // Forzado a 120 para pruebas de producción
+    const progression = 120
     const totalSlots = 120
 
     useEffect(() => {
@@ -30,27 +30,25 @@ export default function Main() {
 
     return (
         <main className="w-full h-[calc(100vh-64px)] bg-background font-inter box-border overflow-hidden flex flex-col relative">
-            {/* Legacy Mode Sequence Overlay */}
             {isLegacyActive && (
-                <div className="fixed inset-0 z-100 bg-black overflow-y-auto animate-in fade-in duration-1000">
+                <div className="fixed inset-0 z-100 bg-background overflow-y-auto animate-in fade-in duration-1000">
                     <LegacySequence contributions={contributions} withAudio={withAudio} />
                 </div>
             )}
 
-            {/* Milestone Trigger Button */}
             {progression >= 120 && !isLegacyActive && (
-                <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center animate-in fade-in duration-700">
+                <section className="fixed inset-0 z-50 bg-background/90 backdrop-blur-md flex flex-col items-center justify-center animate-in fade-in duration-700">
                     <div className="flex flex-col items-center gap-12 max-w-sm w-full">
                         <div className="text-center space-y-2">
-                            <p className="text-[10px] tracking-[0.5em] uppercase text-primary font-bold">Objetivo Alcanzado</p>
-                            <h2 className="text-4xl font-black tracking-tighter text-white uppercase italic">120 Memorias</h2>
+                            <p className="text-[10px] tracking-[0.5em] uppercase text-primary font-bold">Objetive Reached</p>
+                            <h2 className="text-4xl font-black tracking-tighter text-secondary uppercase italic">120 Memories</h2>
                         </div>
 
                         <button
                             onClick={() => setIsLegacyActive(true)}
-                            className="group relative w-full py-6 bg-white text-black text-xs tracking-[0.3em] uppercase font-bold hover:bg-white/90 transition-all duration-500 overflow-hidden"
+                            className="cursor-pointer group w-full py-6 bg-foreground text-primary text-xs tracking-widest uppercase font-bold hover:bg-foreground/50 transition-all duration-500 overflow-hidden"
                         >
-                            <span className="relative z-10 transition-colors duration-500">Iniciar el Legado</span>
+                            <span className="transition-colors duration-500">Start Legacy</span>
                         </button>
 
                         <label className="flex items-center gap-3 cursor-pointer group">
@@ -62,14 +60,14 @@ export default function Main() {
                                     className="peer sr-only"
                                 />
                                 <div className="w-10 h-5 bg-white/10 rounded-full peer peer-checked:bg-primary transition-all duration-300" />
-                                <div className="absolute top-1 left-1 w-3 h-3 bg-white rounded-full peer-checked:translate-x-5 transition-all duration-300" />
+                                <div className="absolute top-1 left-1 w-3 h-3 bg-foreground rounded-full peer-checked:translate-x-5 transition-all duration-300" />
                             </div>
-                            <span className="text-[10px] tracking-widest text-white/40 uppercase group-hover:text-white/60 transition-colors">
-                                {withAudio ? 'Vivir con Sonido (avicii.mp3)' : 'Experiencia en Silencio'}
+                            <span className="text-xs tracking-widest text-primary/40 uppercase group-hover:text-primary/60 transition-colors">
+                                {withAudio ? 'Vivir con Sonido' : 'Experiencia en Silencio'}
                             </span>
                         </label>
                     </div>
-                </div>
+                </section>
             )}
 
             <section className="relative flex-1 w-full overflow-hidden">
