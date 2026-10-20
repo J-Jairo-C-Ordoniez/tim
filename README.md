@@ -1,6 +1,6 @@
 # TIM — Design Thinking
 
-## 1. Empatía (UX Research)
+## Empatía (UX Research)
 
 ### Enfoque del proyecto
 
@@ -21,7 +21,7 @@ Dependiendo del contenido analizado, la investigación será actitudinal o condu
 
 ---
 
-## 2. Investigación de la comunidad de Avicii en Reddit
+## Investigación de la comunidad de Avicii en Reddit
 
 **Tipo:** Observación no participante (netnografía).
 
@@ -105,7 +105,7 @@ Esta observación constituye un punto de partida para la investigación y no per
 
 ---
 
-## 3. Investigación en los comentarios de publicaciones recientes de Avicii en YouTube
+## Investigación en los comentarios de publicaciones recientes de Avicii en YouTube
 
 El canal de Avicii continúa activo después de su fallecimiento. Como nuestra intención es explorar su legado y su comunidad, seleccionamos publicaciones recientes relacionadas con la forma en que Tim construía sus canciones y otros aspectos de su proceso creativo.
 
@@ -179,7 +179,7 @@ Estas observaciones permiten explorar la relación entre la música, las experie
 
 ---
 
-## 4. Investigación en la comunidad de Discord
+## Investigación en la comunidad de Discord
 
 **Tipo:** Observación no participante (netnografía).
 
@@ -225,7 +225,7 @@ La evidencia disponible permite explorar cómo su legado se incorpora a las inte
 
 ---
 
-## 5. Investigación en la comunidad de la página oficial
+## Investigación en la comunidad de la página oficial
 
 **Tipo:** Observación no participante (netnografía).
 
@@ -252,7 +252,7 @@ Más allá de observar lo que los seguidores expresan con palabras, aquí podemo
 
 ---
 
-## 6. Definición del enfoque del proyecto
+## Definición del enfoque del proyecto
 
 Necesitábamos determinar qué aspectos del legado de Avicii debíamos explorar para construir una experiencia significativa para su comunidad.
 
@@ -288,7 +288,7 @@ Las relaciones entre sus elementos orientarán la exploración, mientras que las
 
 ---
 
-## 7. Sistema conceptual
+## Sistema conceptual
 
 Esta representación es una síntesis conceptual, no una jerarquía rígida ni una secuencia lineal. Los elementos se relacionan entre sí y pueden explorarse de manera conjunta cuando la investigación lo justifique.
 
@@ -327,7 +327,7 @@ Las respuestas orientarán el nivel de profundidad de cada rama del sistema. No 
 
 ---
 
-## 8. Mapa de empatía
+## Mapa de empatía
 
 **Objetivo:** organizar las evidencias recopiladas para comprender cómo los miembros de la comunidad expresan su vínculo con Avicii, qué hacen para mantener vivo su legado y qué experiencias comparten alrededor de su música, su trayectoria y la persona de Tim.
 
@@ -365,7 +365,7 @@ Las siguientes afirmaciones son interpretaciones que deben contrastarse con nuev
 
 ---
 
-## 9. Conceptos narrativos
+## Conceptos narrativos
 
 El objetivo es identificar conceptos que permitan explorar y comunicar distintas dimensiones de Tim y su legado, dejando para la etapa de ideación la creación de historias, las conexiones narrativas concretas y las posibles formas de presentarlas.
 
@@ -377,7 +377,7 @@ Un concepto puede relacionarse con varios niveles del sistema al mismo tiempo. E
 
 La validación no implica que todos los conceptos tengan que estar completamente documentados desde el principio. Algunos cuentan con evidencia directa y pueden avanzar a ideación; otros son líneas de exploración que necesitan investigación adicional antes de desarrollar su narrativa.
 
-### 9.1. La música como compañía en momentos difíciles
+### La música como compañía en momentos difíciles
 
 **Idea central**
 
@@ -404,7 +404,7 @@ En los comentarios de YouTube sobre *Stories on Stories Ep. 3 — The Lost Tapes
 
 Explorar cómo una canción que forma parte de la obra de Tim llega a convertirse, para un oyente, en una compañía durante un momento difícil. El relato puede conectar la música con la experiencia personal, sin presentar un caso individual como una experiencia universal ni afirmar que la canción sustituye el apoyo profesional.
 
-### 9.2. La música como una forma de mantener vivo el legado
+### La música como una forma de mantener vivo el legado
 
 **Idea central**
 
@@ -431,7 +431,7 @@ En YouTube, una persona comenta a finales de 2025 que Avicii sigue sonando y des
 
 Mostrar cómo una canción continúa formando parte de la vida de alguien años después de su lanzamiento, conectando su historia artística con las personas que todavía la escuchan. La ideación determinará si se expresa mediante testimonios, recuerdos o una experiencia musical.
 
-### 9.3. La persona detrás de la música
+### La persona detrás de la música
 
 **Idea central**
 
@@ -458,7 +458,7 @@ El material audiovisual de *The Making of For A Better Day* muestra a Tim trabaj
 
 Partir de una canción conocida y acercarse al proceso de creación que existe detrás de ella, mostrando las decisiones, pruebas y colaboraciones que puedan documentarse. El relato no debe deducir su personalidad completa a partir de una sola sesión de estudio.
 
-### 9.4. La creación como homenaje
+### La creación como homenaje
 
 **Idea central**
 
@@ -485,7 +485,7 @@ En Reddit, una persona presenta un videojuego inspirado en Avicii e incorpora ca
 
 Presentar una creación de un fan y explorar cómo una obra musical inspira a otra persona a desarrollar algo propio. La historia no tendría que centrarse exclusivamente en el resultado: también podría mostrar el esfuerzo, las decisiones y el significado que su creador atribuye al homenaje.
 
-### 9.5. Compartir a Avicii con nuevas personas
+### Compartir a Avicii con nuevas personas
 
 **Idea central**
 
@@ -512,7 +512,7 @@ En Reddit, una persona crea un vídeo con canciones populares y presentaciones d
 
 Contar cómo una persona prepara un vídeo para que sus amigos conozcan a Avicii y por qué selecciona determinadas canciones o presentaciones. La ideación decidirá si el centro del relato será la selección musical, el esfuerzo de creación o el acto de compartir.
 
-### 9.6. Los conciertos como recuerdos que permanecen
+### Los conciertos como recuerdos que permanecen
 
 **Idea central**
 
@@ -539,7 +539,7 @@ En Reddit, una persona publica una imagen relacionada con el último concierto d
 
 Reconstruir una experiencia de concierto a partir de fotografías, recuerdos y testimonios de quienes estuvieron allí, mostrando qué elementos de esa experiencia permanecen en su memoria. El relato debe diferenciar los recuerdos documentados de cualquier reconstrucción imaginada.
 
-### 9.7. Revivir la experiencia de un show a través de la música
+### Revivir la experiencia de un show a través de la música
 
 **Idea central**
 
@@ -566,7 +566,7 @@ En Reddit, un usuario explica que encontró una lista de reproducción que inten
 
 Explorar cómo la selección y el orden de las canciones de un set pueden ayudar a reconstruir la experiencia de una presentación. La narración deberá distinguir entre el set documentado y la experiencia subjetiva de quien lo escucha.
 
-### 9.8. La comunidad como memoria compartida
+### La comunidad como memoria compartida
 
 **Idea central**
 
@@ -593,7 +593,7 @@ En la página oficial aparecen recuerdos de conciertos y fotografías de persona
 
 Reunir fotografías y testimonios de distintas personas que asistieron a una misma presentación, mostrando cómo un acontecimiento compartido puede conservar recuerdos diferentes. La selección debe respetar el contexto y los derechos asociados al material.
 
-### 9.9. La vida cotidiana atravesada por la música
+### La vida cotidiana atravesada por la música
 
 **Idea central**
 
@@ -619,7 +619,7 @@ En Discord, una persona recuerda que de niño pensaba que su hermano odiaba la c
 
 Partir de una anécdota personal en la que una canción forme parte de un recuerdo familiar y explorar cómo esa música queda asociada a una experiencia concreta. La historia debería apoyarse en testimonios reales, no en situaciones inventadas presentadas como experiencias de la comunidad.
 
-### 9.10. El interés por las historias que existen detrás de las canciones
+### El interés por las historias que existen detrás de las canciones
 
 **Idea central**
 
@@ -646,7 +646,7 @@ En YouTube, un comentario celebra la publicación de imágenes del estudio y exp
 
 Presentar una canción publicada o un tema cuya historia esté documentada y explorar qué se conoce de su proceso creativo, las colaboraciones implicadas y las decisiones relacionadas con su publicación. Debe diferenciarse entre información confirmada, testimonios y cuestiones que siguen sin respuesta.
 
-### 9.11. La colaboración como parte de la creación musical
+### La colaboración como parte de la creación musical
 
 **Idea central**
 
@@ -673,7 +673,7 @@ El material de *The Making of For A Better Day* muestra a Tim trabajando junto a
 
 Explorar cómo dos colaboradores participaron en el desarrollo de una canción, mostrando únicamente las decisiones, aportaciones y relaciones de trabajo que puedan documentarse.
 
-### 9.12. El homenaje como una forma de expresar ausencia y admiración
+### El homenaje como una forma de expresar ausencia y admiración
 
 **Idea central**
 
@@ -705,11 +705,11 @@ Estos conceptos no son doce capítulos ni tienen que aparecer todos en el produc
 
 ---
 
-## 10. Ideación
+## Ideación
 
 ### Estructura narrativa
 
-#### 10.1. Conocer a Tim
+#### Conocer a Tim
 
 Acercarnos a la persona detrás de Avicii: su infancia, sus primeros intereses, cómo se acercó a la música y cómo empezó a construir su identidad artística.
 
@@ -717,25 +717,25 @@ La intención no sería resumir toda su biografía, sino encontrar momentos sign
 
 **Nota:** esta es una apreciación personal y de diseño para aterrizar la idea de que queremos resaltar a Tim, la persona.
 
-#### 10.2. Más allá del escenario
+#### Más allá del escenario
 
 Explorar cómo trabajaba Tim y acercarnos al proceso que existe detrás de una canción: sus ideas, decisiones creativas y colaboraciones documentadas.
 
 Esta línea puede integrar «Antes de que una canción existiera» sin tener que separar cada aspecto del proceso en una historia distinta.
 
-#### 10.3. Una canción, una historia personal
+#### Una canción, una historia personal
 
 Explorar cómo una canción adquiere significado en la vida de una persona. Aquí pueden convivir dos perspectivas: lo que alguien encuentra en una canción y el recuerdo personal que termina asociando con ella.
 
 La identificación emocional es central: que alguien pueda pensar que esa canción también significa algo para mí.
 
-#### 10.4. Un mismo show, muchos recuerdos
+#### Un mismo show, muchos recuerdos
 
 Explorar las experiencias que permanecen después de una presentación a través de las personas que estuvieron allí.
 
 Más que describir un concierto, se trataría de descubrir qué recuerda cada persona y qué significado conserva esa experiencia.
 
-#### 10.5. Lo que inspira
+#### Lo que inspira
 
 Explorar cómo la música y el legado de Avicii impulsan a otras personas a crear, recordar, compartir y continuar desarrollando sus propias ideas.
 
@@ -743,17 +743,17 @@ Aquí podemos integrar videojuegos, fanarts, vídeos y otras expresiones creativ
 
 ---
 
-## 11. Definición del hook
+## Definición del hook
 
 Tenemos dos opciones: comenzar con una experiencia personal relacionada con una canción puede ser muy potente, aunque depende de que el visitante encuentre una conexión con esa experiencia. También podemos comenzar con Tim y alguna dimensión de su infancia o juventud que permita partir de algo más universal: crecer, descubrir intereses, encontrar algo que nos apasiona o empezar a entender quiénes somos.
 
-### Opción A. Conocer a Tim antes de conocer a Avicii
+### Conocer a Tim antes de conocer a Avicii
 
 **Tipo de conexión:** más universal.
 
 El usuario descubre a Tim desde una dimensión humana: su infancia, sus intereses, sus primeras inquietudes o el descubrimiento de aquello que le apasionaba.
 
-### Opción B. Comenzar por lo que una canción significa para alguien
+### Comenzar por lo que una canción significa para alguien
 
 **Tipo de conexión:** más específica.
 
@@ -768,7 +768,7 @@ Nos quedamos con el hook de Tim por dos motivos:
 
 ---
 
-## 12. Historia aterrizada
+## Historia aterrizada
 
 ### Antes de Avicii, estaba Tim
 
@@ -796,7 +796,7 @@ La historia ya no trata solamente de quién era Tim. Ahora descubrimos algo que 
 
 ---
 
-## 13. Propuesta para la introducción
+## Propuesta para la introducción
 
 ### Título
 
