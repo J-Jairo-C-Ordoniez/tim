@@ -10,7 +10,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
-      className="h-full antialiased"
+      className="hero-is-playing h-full antialiased"
     >
       <body className="min-h-full bg-background text-foreground">{children}</body>
     </html>

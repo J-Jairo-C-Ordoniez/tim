@@ -1,4 +1,4 @@
-export function IntroScene() {
+export default function IntroScene() {
   return (
     <section data-intro-scene className="absolute inset-0 z-10 flex items-center justify-center px-6 sm:px-12" aria-labelledby="intro-title">
       <h1
