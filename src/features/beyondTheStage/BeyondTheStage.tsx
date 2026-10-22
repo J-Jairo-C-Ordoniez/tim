@@ -14,7 +14,6 @@ export default function BeyondTheStage({ enabled }: BeyondTheStageProps) {
 
   useEffect(() => {
     if (enabled) {
-      // Forzamos el recálculo de posiciones de ScrollTrigger cuando el Hero finaliza
       const timer = setTimeout(() => {
         ScrollTrigger.refresh();
       }, 100);

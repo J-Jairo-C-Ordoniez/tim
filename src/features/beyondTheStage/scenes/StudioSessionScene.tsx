@@ -4,6 +4,14 @@ import { useCallback, useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import BetterDayDefinitionFrame from "@/features/beyondTheStage/ui/BetterDayDefinitionFrame";
+import GuitarQuoteFrame from "@/features/beyondTheStage/ui/GuitarQuoteFrame";
+import LamppostParallaxFrame from "@/features/beyondTheStage/ui/LamppostParallaxFrame";
+import LamppostReflectionFrame from "@/features/beyondTheStage/ui/LamppostReflectionFrame";
+import StoriesCreativeFrame from "@/features/beyondTheStage/ui/StoriesCreativeFrame";
+import StudioGuitarFrame from "@/features/beyondTheStage/ui/StudioGuitarFrame";
+import SynthesizerReactionFrame from "@/features/beyondTheStage/ui/SynthesizerReactionFrame";
+import WakeMeUpBridgeFrame from "@/features/beyondTheStage/ui/WakeMeUpBridgeFrame";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,41 +19,10 @@ type StudioSessionSceneProps = {
   enabled: boolean;
 };
 
-function SplitWords({
-  text,
-  className = "",
-  highlight,
-}: {
-  text: string;
-  className?: string;
-  highlight?: string;
-}) {
-  const words = text.split(" ");
-  return (
-    <span className={className}>
-      {words.map((word, i) => {
-        const isHighlight = highlight && word.toLowerCase().includes(highlight.toLowerCase());
-        return (
-          <span key={`${word}-${i}`} className="inline-block whitespace-nowrap mr-[0.26em]">
-            <span
-              data-word
-              className={`inline-block will-change-[transform,opacity] ${
-                isHighlight ? "font-medium text-foreground" : ""
-              }`}
-            >
-              {word}
-            </span>
-          </span>
-        );
-      })}
-    </span>
-  );
-}
-
 export default function StudioSessionScene({ enabled }: StudioSessionSceneProps) {
   const container = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
-  const parallaxFrame = useRef<HTMLDivElement>(null);
+  const parallaxFrame = useRef<HTMLElement>(null);
   const imgTop = useRef<HTMLDivElement>(null);
   const imgBottom = useRef<HTMLDivElement>(null);
   const frame7Ref = useRef<HTMLElement>(null);
@@ -103,6 +80,42 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
       }
     };
   }, []);
+
+  const handleLoadedMetadata = useCallback(() => {
+    if (videoWakeMeUpRef.current) {
+      videoWakeMeUpRef.current.currentTime = 26;
+    }
+  }, []);
+
+  const handleTimeUpdate = useCallback(() => {
+    const vid = videoWakeMeUpRef.current;
+    if (!vid) return;
+
+    // Detener al llegar al segundo 1:38 (98s) y mostrar texto de transición sin bucle infinito
+    if (vid.currentTime >= 98 && !hasEndedRef.current) {
+      hasEndedRef.current = true;
+      vid.pause();
+      vid.currentTime = 98;
+
+      unlockUserScroll();
+
+      if (videoOverlayRef.current) {
+        gsap.to(videoOverlayRef.current, {
+          autoAlpha: 1,
+          duration: 1.2,
+          ease: "power2.out",
+        });
+        const items = videoOverlayRef.current.querySelectorAll(
+          "[data-video-overlay-item]",
+        );
+        gsap.fromTo(
+          items,
+          { y: 24, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 1.2, stagger: 0.15, ease: "power2.out" },
+        );
+      }
+    }
+  }, [unlockUserScroll]);
 
   useGSAP(
     () => {
@@ -342,244 +355,29 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
       className="relative h-svh w-full overflow-hidden bg-background"
       aria-label="Studio session quotes and archive"
     >
-      <div
-        ref={track}
-        className="flex h-full w-max will-change-transform"
-      >
-        {/* Frame 1: Cita de la guitarra (100vw, 100vh) */}
-        <article
-          data-frame
-          className="flex h-svh w-screen shrink-0 items-center justify-center px-8 sm:px-16 lg:px-24"
-        >
-          <div className="max-w-4xl text-center">
-            <p className="text-3xl font-light leading-relaxed tracking-wide text-foreground sm:text-5xl lg:text-6xl">
-              <SplitWords text="“I love the sound of that guitar.”" highlight="guitar" />
-            </p>
-          </div>
-        </article>
-
-        {/* Frame 2: Imagen 1 - Estudio con guitarra (100vw, 100vh) - Sin borde */}
-        <figure
-          data-frame
-          className="flex h-svh w-screen shrink-0 items-center justify-center px-8 sm:px-16 lg:px-24"
-        >
-          <div className="relative aspect-video w-full max-w-5xl overflow-hidden rounded-2xl shadow-2xl">
-            <img
-              data-image-reveal
-              src="/beyondTheStage1.png"
-              alt="Tim Bergling and studio musician working with acoustic guitar"
-              className="size-full object-cover will-change-[transform,opacity]"
-              draggable={false}
-              loading="eager"
-            />
-          </div>
-        </figure>
-
-        {/* Frame 3: Sección de una línea central con dos imágenes en parallax (100vw, 100vh) - Sin bordes */}
-        <section
-          ref={parallaxFrame}
-          data-frame
-          className="relative flex h-svh w-screen shrink-0 items-center justify-center overflow-hidden px-6"
-        >
-          {/* Imagen superior que baja desde arriba con parallax */}
-          <div
-            ref={imgTop}
-            className="pointer-events-none absolute left-[8%] top-8 z-0 aspect-video w-56 overflow-hidden rounded-2xl shadow-2xl will-change-[transform,opacity] sm:left-[12%] sm:top-12 sm:w-80 md:w-96"
-          >
-            <img
-              src="/beyondTheStage2.png"
-              alt="Tim Bergling focused at the laptop in the studio"
-              className="size-full object-cover"
-              draggable={false}
-              loading="eager"
-            />
-          </div>
-
-          {/* Línea horizontal central limpia */}
-          <div className="relative z-10 max-w-5xl px-4 text-center">
-            <p className="whitespace-nowrap text-xl font-light tracking-[0.06em] text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
-              <SplitWords
-                text="Under an old lamppost, I spoke your name."
-                highlight="spoke"
-              />
-            </p>
-          </div>
-
-          {/* Imagen inferior que sube en contraposición con parallax */}
-          <div
-            ref={imgBottom}
-            className="pointer-events-none absolute bottom-8 right-[8%] z-0 aspect-video w-56 overflow-hidden rounded-2xl shadow-2xl will-change-[transform,opacity] sm:bottom-12 sm:right-[12%] sm:w-80 md:w-96"
-          >
-            <img
-              src="/beyondTheStage3.png"
-              alt="Tim Bergling by the studio equipment"
-              className="size-full object-cover"
-              draggable={false}
-              loading="eager"
-            />
-          </div>
-        </section>
-
-        {/* Frame 4: Reflexión sobre la farola (100vw, 100vh) */}
-        <article
-          data-frame
-          className="flex h-svh w-screen shrink-0 items-center justify-center px-8 sm:px-16 lg:px-24"
-        >
-          <div className="max-w-4xl text-center">
-            <p className="text-2xl font-light leading-relaxed text-foreground-muted sm:text-3xl md:text-4xl lg:text-5xl">
-              <SplitWords
-                text="“I like that part of ‘I spoke your name.’ Although I'm not sold on the lamppost; I don't like how it sounds when singing it.”"
-                highlight="name"
-              />
-            </p>
-          </div>
-        </article>
-
-        {/* Frame 5: Imagen 4 con reacción musical (100vw, 100vh) - Sin borde */}
-        <article
-          data-frame
-          className="flex h-svh w-screen shrink-0 items-center justify-center px-8 sm:px-16 lg:px-24"
-        >
-          <div className="flex w-full max-w-6xl flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-16">
-            <div className="aspect-video w-full shrink-0 overflow-hidden rounded-2xl shadow-2xl lg:w-3/5">
-              <img
-                data-image-reveal
-                src="/beyondTheStage4.png"
-                alt="Tim Bergling playing the synthesizer in studio"
-                className="size-full object-cover will-change-[transform,opacity]"
-                draggable={false}
-                loading="eager"
-              />
-            </div>
-            <div className="w-full text-center lg:w-2/5 lg:text-left">
-              <p className="text-2xl font-light leading-snug text-foreground sm:text-3xl md:text-4xl">
-                <SplitWords
-                  text="“Wow! That sounds great. I also like the part about ‘for a better day.’”"
-                  highlight="better"
-                />
-              </p>
-            </div>
-          </div>
-        </article>
-
-        {/* Frame 6: La definición de For a Better Day (100vw, 100vh) */}
-        <article
-          data-frame
-          className="flex h-svh w-screen shrink-0 items-center justify-center px-8 sm:px-16 lg:px-24"
-        >
-          <div className="max-w-4xl text-center">
-            <p className="text-3xl font-light leading-relaxed text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
-              <SplitWords
-                text="“You know? I like that ‘it’s time for a better day.’ Yeah, that feels right...”"
-                highlight="better"
-              />
-            </p>
-          </div>
-        </article>
-
-        {/* Frame 7: Imagen 5 (Stories) - Muy importante hacia el final (100vw, 100vh) - Sin borde */}
-        <article
-          ref={frame7Ref}
-          data-frame
-          className="relative flex h-svh w-screen shrink-0 items-center justify-center overflow-hidden px-8 sm:px-16 lg:px-24"
-        >
-          <div className="absolute inset-0 -z-10 overflow-hidden">
-            <img
-              ref={bgStoriesRef}
-              src="/beyondTheStage5.png"
-              alt="Tim Bergling deep in creation process"
-              className="size-full object-cover brightness-[0.35] contrast-110 will-change-[transform,opacity]"
-              draggable={false}
-              loading="eager"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/70" />
-          </div>
-          <div className="relative z-10 max-w-4xl text-center">
-            <p className="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-foreground-muted sm:text-sm">
-              <SplitWords text="Stories · Creative Process" />
-            </p>
-            <p className="text-2xl font-light leading-relaxed text-foreground sm:text-4xl md:text-5xl">
-              <SplitWords
-                text="“On Stories, I'm exploring a lot more... I'm stepping out of the ordinary, trying new things I’ve never done before or experimented with. That’s why I do this.”"
-                highlight="this"
-              />
-            </p>
-          </div>
-        </article>
-
-        {/* Frame 8: Wake Me Up - Puente audiovisual a la vida de las personas */}
-        <figure
-          ref={frame8Ref}
-          data-frame
-          onClick={() => unlockUserScroll()}
-          className="relative flex h-svh w-screen min-w-screen shrink-0 items-center justify-center overflow-hidden bg-background isolate z-10"
-        >
-          <video
-            ref={videoWakeMeUpRef}
-            src="/WakeMeUp.mp4"
-            className="size-full object-cover brightness-50 contrast-125 grayscale will-change-[transform,opacity]"
-            playsInline
-            preload="auto"
-            onLoadedMetadata={() => {
-              if (videoWakeMeUpRef.current) {
-                videoWakeMeUpRef.current.currentTime = 26;
-              }
-            }}
-            onTimeUpdate={() => {
-              const vid = videoWakeMeUpRef.current;
-              if (!vid) return;
-
-              // Detener al llegar al segundo 1:38 (98s) y mostrar texto de transición sin bucle infinito
-              if (vid.currentTime >= 98 && !hasEndedRef.current) {
-                hasEndedRef.current = true;
-                vid.pause();
-                vid.currentTime = 98;
-
-                // Desbloqueo del scroll para continuar normalmente
-                unlockUserScroll();
-
-                if (videoOverlayRef.current) {
-                  gsap.to(videoOverlayRef.current, {
-                    autoAlpha: 1,
-                    duration: 1.2,
-                    ease: "power2.out",
-                  });
-                  const items = videoOverlayRef.current.querySelectorAll("[data-video-overlay-item]");
-                  gsap.fromTo(
-                    items,
-                    { y: 24, autoAlpha: 0 },
-                    { y: 0, autoAlpha: 1, duration: 1.2, stagger: 0.15, ease: "power2.out" },
-                  );
-                }
-              }
-            }}
-          />
-          <div className="pointer-events-none absolute inset-0 bg-background/30" aria-hidden="true" />
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-background via-transparent to-background/70" aria-hidden="true" />
-
-          {/* Transición montada sobre el vídeo al finalizar (estilo Hero) */}
-          <div
-            ref={videoOverlayRef}
-            className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center opacity-0"
-            aria-hidden="true"
-          >
-            <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
-            <div className="relative z-10 max-w-5xl px-4">
-              <h2
-                data-video-overlay-item
-                className="text-4xl font-light uppercase tracking-[0.22em] text-foreground sm:text-6xl md:text-7xl lg:text-8xl leading-tight"
-              >
-                Wake Me Up
-              </h2>
-              <p
-                data-video-overlay-item
-                className="mt-6 text-sm sm:text-lg md:text-xl font-light uppercase tracking-[0.38em] text-foreground-muted/90"
-              >
-                A Listener’s Reflection
-              </p>
-            </div>
-          </div>
-        </figure>
+      <div ref={track} className="flex h-full w-max will-change-transform">
+        <GuitarQuoteFrame />
+        <StudioGuitarFrame />
+        <LamppostParallaxFrame
+          sectionRef={parallaxFrame}
+          imgTopRef={imgTop}
+          imgBottomRef={imgBottom}
+        />
+        <LamppostReflectionFrame />
+        <SynthesizerReactionFrame />
+        <BetterDayDefinitionFrame />
+        <StoriesCreativeFrame
+          articleRef={frame7Ref}
+          bgStoriesRef={bgStoriesRef}
+        />
+        <WakeMeUpBridgeFrame
+          figureRef={frame8Ref}
+          videoRef={videoWakeMeUpRef}
+          overlayRef={videoOverlayRef}
+          onLoadedMetadata={handleLoadedMetadata}
+          onTimeUpdate={handleTimeUpdate}
+          onUnlockScroll={unlockUserScroll}
+        />
       </div>
     </section>
   );

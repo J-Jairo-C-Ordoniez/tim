@@ -31,7 +31,6 @@ export default function LyricTransitionScene({ enabled }: LyricTransitionScenePr
         return;
       }
 
-      // Estado inicial garantizado
       gsap.set(p1, { autoAlpha: 0, y: 35, scale: 0.94 });
       gsap.set(p2, { autoAlpha: 0, y: 35, scale: 0.94 });
 
@@ -47,14 +46,11 @@ export default function LyricTransitionScene({ enabled }: LyricTransitionScenePr
         },
       });
 
-      // Frase 1: "MIGHT BE TIME"
       tl.to(p1, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: "power2.out" })
-        .to(p1, { autoAlpha: 1, y: 0, duration: 1 }) // pausa de lectura
+        .to(p1, { autoAlpha: 1, y: 0, duration: 1 })
         .to(p1, { autoAlpha: 0, y: -25, scale: 1.05, duration: 0.8, ease: "power2.in" })
-
-        // Frase 2: "FOR A BETTER DAY"
         .to(p2, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: "power2.out" }, ">-0.1")
-        .to(p2, { autoAlpha: 1, y: 0, duration: 1.2 }) // pausa de lectura
+        .to(p2, { autoAlpha: 1, y: 0, duration: 1.2 })
         .to(p2, { autoAlpha: 0, y: -25, scale: 1.05, duration: 0.8, ease: "power2.in" });
 
       return () => {
