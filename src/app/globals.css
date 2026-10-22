@@ -6,20 +6,32 @@
   --color-foreground-muted: #a9aaad;
 }
 
-html {
-  /* Reserving this space stops the composition from shifting when the hero
-     releases the document scrollbar. */
-  scrollbar-gutter: stable;
-  overflow-x: clip;
-}
-
+html,
 body {
-  overflow-x: clip;
-}
-
-html.hero-is-playing,
-html.hero-is-playing body {
   height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
   overscroll-behavior: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+#main-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#main-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }

@@ -41,6 +41,7 @@ export default function ClosingScene({ enabled }: ClosingSceneProps) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container.current,
+          scroller: "#main-scroll",
           start: "top top",
           end: "+=260%",
           pin: true,

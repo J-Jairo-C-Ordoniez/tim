@@ -37,6 +37,7 @@ export default function LyricTransitionScene({ enabled }: LyricTransitionScenePr
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container.current,
+          scroller: "#main-scroll",
           start: "top top",
           end: "+=160%",
           pin: true,

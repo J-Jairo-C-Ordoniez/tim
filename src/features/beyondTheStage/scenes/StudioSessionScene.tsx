@@ -91,7 +91,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
     const vid = videoWakeMeUpRef.current;
     if (!vid) return;
 
-    // Detener al llegar al segundo 1:38 (98s) y mostrar texto de transición sin bucle infinito
     if (vid.currentTime >= 98 && !hasEndedRef.current) {
       hasEndedRef.current = true;
       vid.pause();
@@ -105,14 +104,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
           duration: 1.2,
           ease: "power2.out",
         });
-        const items = videoOverlayRef.current.querySelectorAll(
-          "[data-video-overlay-item]",
-        );
-        gsap.fromTo(
-          items,
-          { y: 24, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 1.2, stagger: 0.15, ease: "power2.out" },
-        );
       }
     }
   }, [unlockUserScroll]);
@@ -129,11 +120,9 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         return;
       }
 
-      // Distancia de scroll exacta basada en la posición real de Frame 8 para evitar franjas
       const getScrollDistance = () =>
         frame8Ref.current ? frame8Ref.current.offsetLeft : trackEl.scrollWidth - window.innerWidth;
 
-      // Control de reproducción del vídeo Wake Me Up (0:26 a 1:38)
       const playWakeMeUp = () => {
         const vid = videoWakeMeUpRef.current;
         if (!vid) return;
@@ -176,6 +165,7 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         ease: "none",
         scrollTrigger: {
           trigger: containerEl,
+          scroller: "#main-scroll",
           start: "top top",
           end: () => `+=${Math.max(1, getScrollDistance())}`,
           pin: true,
@@ -189,7 +179,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
             if (!vid || !frame8) return;
 
             const rect = frame8.getBoundingClientRect();
-            // Inmediatamente cuando Frame 8 ocupa la pantalla, iniciar el vídeo
             const isOccupying =
               rect.left <= Math.max(60, window.innerWidth * 0.1) &&
               rect.right >= window.innerWidth * 0.9;
@@ -210,7 +199,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         },
       });
 
-      // Animaciones perceptibles activadas cuando el usuario llega a cada frame
       const frameElements = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-frame]"));
 
       frameElements.forEach((frame, index) => {
@@ -218,7 +206,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         const image = frame.querySelector<HTMLElement>("[data-image-reveal]");
         const isFirst = index === 0;
 
-        // Revelación de palabras estilo subtítulo del Hero con stagger sutil
         if (words.length > 0) {
           gsap.set(words, { autoAlpha: 0, y: 22 });
 
@@ -237,7 +224,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
           });
         }
 
-        // Animación de respiración/vida para imágenes en marcos
         if (image) {
           gsap.set(image, { scale: 1.08, autoAlpha: 0.4 });
 
@@ -256,7 +242,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         }
       });
 
-      // Frame 3: Parallax vertical continuo de las dos imágenes flotantes
       if (parallaxFrame.current && imgTop.current && imgBottom.current) {
         gsap.fromTo(
           imgTop.current,
@@ -293,7 +278,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         );
       }
 
-      // Frame 7: Zoom ambiental en la imagen de fondo Stories al llegar
       if (frame7Ref.current && bgStoriesRef.current) {
         gsap.set(bgStoriesRef.current, { scale: 1.12, autoAlpha: 0.35 });
 
@@ -311,7 +295,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         });
       }
 
-      // Frame 8: Entrada audiovisual estilo documental
       if (frame8Ref.current && videoWakeMeUpRef.current) {
         gsap.set(videoWakeMeUpRef.current, { scale: 1.08, autoAlpha: 0.35 });
 
@@ -329,9 +312,9 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         });
       }
 
-      // Al desplazarse fuera de BeyondTheStage hacia Testimonial, pausar el vídeo
       ScrollTrigger.create({
         trigger: containerEl,
+        scroller: "#main-scroll",
         start: "bottom top",
         onEnter: () => pauseWakeMeUp(),
         onLeaveBack: () => {
@@ -353,9 +336,12 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
     <section
       ref={container}
       className="relative h-svh w-full overflow-hidden bg-background"
-      aria-label="Studio session quotes and archive"
+      aria-label="Avicii's studio and creative journey"
     >
-      <div ref={track} className="flex h-full w-max will-change-transform">
+      <div
+        ref={track}
+        className="flex h-full w-max will-change-transform items-center px-8 sm:px-16"
+      >
         <GuitarQuoteFrame />
         <StudioGuitarFrame />
         <LamppostParallaxFrame

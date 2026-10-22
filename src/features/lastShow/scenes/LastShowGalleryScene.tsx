@@ -57,6 +57,7 @@ export default function LastShowGalleryScene({ enabled }: LastShowGalleryScenePr
           delay: 0.1,
           scrollTrigger: {
             trigger: containerEl,
+            scroller: "#main-scroll",
             start: "top 80%",
             toggleActions: "play none none reverse",
           },
@@ -68,6 +69,7 @@ export default function LastShowGalleryScene({ enabled }: LastShowGalleryScenePr
         ease: "none",
         scrollTrigger: {
           trigger: containerEl,
+          scroller: "#main-scroll",
           start: "top top",
           end: () => `+=${Math.max(1, getScrollDistance())}`,
           pin: true,
