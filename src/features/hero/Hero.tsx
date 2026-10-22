@@ -49,8 +49,22 @@ function createHeroTimeline(video: HTMLVideoElement | null, onComplete?: () => v
     .addLabel(sceneLabels.documentary, "+=1.25")
     .call(() => {
       if (video) {
+        video.muted = false;
         video.currentTime = 0;
-        void video.play();
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            console.warn("Autoplay con audio bloqueado por el navegador:", err);
+            const enableAudioOnInteraction = () => {
+              video.muted = false;
+              void video.play();
+              window.removeEventListener("click", enableAudioOnInteraction);
+              window.removeEventListener("keydown", enableAudioOnInteraction);
+            };
+            window.addEventListener("click", enableAudioOnInteraction, { once: true });
+            window.addEventListener("keydown", enableAudioOnInteraction, { once: true });
+          });
+        }
       }
     })
     .to("[data-intro-scene]", { autoAlpha: 0, y: -16, duration: 1.1, ease: "power2.in" })

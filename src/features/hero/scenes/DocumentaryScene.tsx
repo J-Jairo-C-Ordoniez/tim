@@ -12,7 +12,6 @@ export default function DocumentaryScene({ videoRef }: DocumentarySceneProps) {
       <video
         ref={videoRef}
         className="size-full object-cover brightness-50 contrast-125 grayscale"
-        muted
         playsInline
         preload="metadata"
         src="/AviciiHero1.mp4"

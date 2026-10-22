@@ -10,6 +10,11 @@ html {
   /* Reserving this space stops the composition from shifting when the hero
      releases the document scrollbar. */
   scrollbar-gutter: stable;
+  overflow-x: clip;
+}
+
+body {
+  overflow-x: clip;
 }
 
 html.hero-is-playing,

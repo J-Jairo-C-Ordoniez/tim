@@ -1,51 +1,29 @@
-const studioPanels = [
+export type StudioQuote = {
+  id: string;
+  lead?: string;
+  quote: string;
+};
+
+const studioQuotes: StudioQuote[] = [
   {
     id: "guitar",
-    type: "cue",
-    timestamp: "0:30",
-    lines: ["Me encanta el sonido de esa guitarra."],
-  },
-  {
-    id: "guitar-clip",
-    type: "media",
-    timestamp: "0:30",
-    label: "El hallazgo",
-    description: "Clip o captura del momento en que la guitarra entra en la sesión.",
+    quote: "“I love the sound of that guitar.”",
   },
   {
     id: "lamppost",
-    type: "cue",
-    timestamp: "0:34",
-    lines: [
-      "«Bajo una vieja farola, pronuncié tu nombre».",
-      "Me gusta esa parte de «pronuncié tu nombre». Aunque no me convence lo de la farola; no me gusta cómo suena al cantarlo.",
-    ],
+    lead: "“Under an old lamppost, I spoke your name.”",
+    quote: "I like that part of “I spoke your name.” Although I'm not sold on the lamppost; I don't like how it sounds when singing it.",
   },
   {
     id: "better-day",
-    type: "cue",
-    timestamp: "1:08 — 1:27",
-    lines: [
-      "¡Guau! Eso suena genial. También me gusta la parte de «por un día mejor».",
-      "¿Sabes? Me gusta eso de «es hora de un día mejor». Sí, eso está bien...",
-    ],
-  },
-  {
-    id: "better-day-clip",
-    type: "media",
-    timestamp: "1:08 — 1:27",
-    label: "Una frase encuentra su sitio",
-    description: "Clip o captura de la conversación que termina de fijar “for a better day”.",
+    lead: "“Wow! That sounds great. I also like the part about ‘for a better day’.”",
+    quote: "“You know? I like that ‘it’s time for a better day.’ Yeah, that feels right...”",
   },
   {
     id: "stories",
-    type: "cue",
-    timestamp: "1:42 — 1:54",
-    lines: [
-      "En Stories estoy explorando mucho más...",
-      "Me estoy saliendo un poco de lo habitual, probando cosas nuevas.",
-    ],
+    lead: "“On Stories, I’m exploring a lot more...”",
+    quote: "“I’m stepping a bit out of the ordinary, trying new things I’ve never done before or experimented with. That’s why I do this.”",
   },
-] as const;
+];
 
-export default studioPanels;
+export default studioQuotes;

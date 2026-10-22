@@ -3,6 +3,7 @@
 import { useState } from "react";
 import BeyondTheStage from "@/features/beyondTheStage/BeyondTheStage";
 import Hero from "@/features/hero/Hero";
+import Testimonial from "@/features/testimonial/Testimonial";
 import useHeroScrollLock from "@/features/home/hooks/useHeroScrollLock";
 
 export default function HomeExperience() {
@@ -11,9 +12,10 @@ export default function HomeExperience() {
   useHeroScrollLock(!heroComplete);
 
   return (
-    <main className={heroComplete ? "overflow-x-hidden bg-background" : "h-svh overflow-hidden bg-background"}>
+    <main className={heroComplete ? "w-full bg-background" : "h-svh overflow-hidden bg-background"}>
       <Hero onComplete={() => setHeroComplete(true)} />
       <BeyondTheStage enabled={heroComplete} />
+      <Testimonial enabled={heroComplete} />
     </main>
   );
 }
