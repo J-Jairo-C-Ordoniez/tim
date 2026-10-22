@@ -3,6 +3,7 @@
 import { useState } from "react";
 import BeyondTheStage from "@/features/beyondTheStage/BeyondTheStage";
 import Hero from "@/features/hero/Hero";
+import LastShow from "@/features/lastShow/LastShow";
 import Testimonial from "@/features/testimonial/Testimonial";
 import useHeroScrollLock from "@/features/home/hooks/useHeroScrollLock";
 
@@ -16,6 +17,7 @@ export default function HomeExperience() {
       <Hero onComplete={() => setHeroComplete(true)} />
       <BeyondTheStage enabled={heroComplete} />
       <Testimonial enabled={heroComplete} />
+      <LastShow enabled={heroComplete} />
     </main>
   );
 }
