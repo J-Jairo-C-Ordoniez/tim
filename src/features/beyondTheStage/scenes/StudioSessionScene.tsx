@@ -165,7 +165,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         ease: "none",
         scrollTrigger: {
           trigger: containerEl,
-          scroller: "#main-scroll",
           start: "top top",
           end: () => `+=${Math.max(1, getScrollDistance())}`,
           pin: true,
@@ -314,7 +313,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
 
       ScrollTrigger.create({
         trigger: containerEl,
-        scroller: "#main-scroll",
         start: "bottom top",
         onEnter: () => pauseWakeMeUp(),
         onLeaveBack: () => {

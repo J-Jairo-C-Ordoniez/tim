@@ -6,8 +6,8 @@ type CaptionTextProps = {
 };
 
 const toneClasses = {
-  context: "font-normal text-foreground/75",
-  emotional: "font-semibold text-foreground",
+  context: "font-light text-foreground/70",
+  emotional: "font-normal text-foreground",
 } as const;
 
 export default function CaptionText({ segments }: CaptionTextProps) {

@@ -41,7 +41,6 @@ export default function TestimonialQuoteScene({ enabled }: TestimonialQuoteScene
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container.current,
-          scroller: "#main-scroll",
           start: "top top",
           end: "+=320%",
           pin: true,

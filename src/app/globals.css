@@ -1,19 +1,25 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: #030405;
-  --color-foreground: #f2f2f3;
+:root {
+  --color-background: #11120D;
+  --color-foreground: #EFEDE3;
   --color-foreground-muted: #a9aaad;
 }
 
-html,
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-foreground-muted: var(--color-foreground-muted);
+}
+
+html {
+  overflow-x: clip;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  overscroll-behavior: none;
+  overflow-x: clip;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -25,13 +31,9 @@ body::-webkit-scrollbar {
   height: 0;
 }
 
-#main-scroll {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-#main-scroll::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
+html.hero-is-playing,
+html.hero-is-playing body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
 }

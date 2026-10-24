@@ -42,7 +42,6 @@ export default function LastShowMemorialScene({ enabled }: LastShowMemorialScene
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container.current,
-          scroller: "#main-scroll",
           start: "top top",
           end: "+=310%",
           pin: true,

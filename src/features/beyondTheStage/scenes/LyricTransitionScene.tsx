@@ -37,7 +37,6 @@ export default function LyricTransitionScene({ enabled }: LyricTransitionScenePr
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container.current,
-          scroller: "#main-scroll",
           start: "top top",
           end: "+=160%",
           pin: true,
@@ -67,16 +66,16 @@ export default function LyricTransitionScene({ enabled }: LyricTransitionScenePr
       className="relative flex h-svh w-full items-center justify-center overflow-hidden bg-background px-6 sm:px-12"
       aria-label="Lyric transition"
     >
-      <div className="relative flex h-40 w-full max-w-4xl items-center justify-center text-center">
+      <div className="relative flex h-48 w-full max-w-5xl items-center justify-center text-center">
         <h2
           ref={phrase1Ref}
-          className="absolute inset-0 flex items-center justify-center text-3xl font-light uppercase tracking-[0.25em] text-foreground sm:text-5xl md:text-6xl"
+          className="absolute inset-0 flex items-center justify-center text-center text-3xl font-light tracking-tight leading-relaxed text-foreground sm:text-5xl md:text-6xl lg:text-7xl will-change-transform"
         >
           might be time
         </h2>
         <h2
           ref={phrase2Ref}
-          className="absolute inset-0 flex items-center justify-center text-3xl font-light uppercase tracking-[0.25em] text-foreground sm:text-5xl md:text-6xl"
+          className="absolute inset-0 flex items-center justify-center text-center text-3xl font-light tracking-tight leading-relaxed text-foreground sm:text-5xl md:text-6xl lg:text-7xl will-change-transform"
         >
           for a better day
         </h2>
