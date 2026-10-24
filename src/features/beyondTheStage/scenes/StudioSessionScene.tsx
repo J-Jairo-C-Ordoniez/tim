@@ -99,11 +99,27 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
       unlockUserScroll();
 
       if (videoOverlayRef.current) {
-        gsap.to(videoOverlayRef.current, {
-          autoAlpha: 1,
-          duration: 1.2,
-          ease: "power2.out",
-        });
+        const overlay = videoOverlayRef.current;
+        const titleCharacters = Array.from(
+          overlay.querySelectorAll<HTMLElement>("h2 [data-video-character]"),
+        );
+        const subtitleCharacters = Array.from(
+          overlay.querySelectorAll<HTMLElement>("p [data-video-character]"),
+        );
+
+        gsap.set([...titleCharacters, ...subtitleCharacters], { autoAlpha: 0, y: 28 });
+        gsap.timeline()
+          .to(overlay, { autoAlpha: 1, duration: 0.8, ease: "power2.out" })
+          .to(
+            titleCharacters,
+            { autoAlpha: 1, y: 0, duration: 0.62, stagger: 0.045, ease: "power1.out" },
+            "<+=0.16",
+          )
+          .to(
+            subtitleCharacters,
+            { autoAlpha: 1, y: 0, duration: 0.48, stagger: 0.035, ease: "power1.out" },
+            "<+=0.18",
+          );
       }
     }
   }, [unlockUserScroll]);
@@ -201,24 +217,28 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
       const frameElements = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-frame]"));
 
       frameElements.forEach((frame, index) => {
-        const words = Array.from(frame.querySelectorAll<HTMLElement>("[data-word]"));
+        const characters = Array.from(
+          frame.querySelectorAll<HTMLElement>("[data-scroll-character]"),
+        );
         const image = frame.querySelector<HTMLElement>("[data-image-reveal]");
+        const darkenedImage = frame.querySelector<HTMLElement>("[data-scroll-darken]");
         const isFirst = index === 0;
 
-        if (words.length > 0) {
-          gsap.set(words, { autoAlpha: 0, y: 22 });
+        if (characters.length > 0) {
+          gsap.set(characters, { autoAlpha: 0, y: 28 });
 
-          gsap.to(words, {
+          gsap.to(characters, {
             autoAlpha: 1,
             y: 0,
-            duration: 0.5,
-            stagger: 0.032,
-            ease: "power2.out",
+            duration: 0.7,
+            stagger: 0.028,
+            ease: "power1.out",
             scrollTrigger: {
               trigger: frame,
               containerAnimation: horizontalTween,
-              start: isFirst ? "left 99%" : "left 65%",
-              toggleActions: "play reverse play reverse",
+              start: isFirst ? "left 84%" : "left 76%",
+              end: isFirst ? "left 24%" : "left 18%",
+              scrub: 0.35,
             },
           });
         }
@@ -238,6 +258,24 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
               toggleActions: "play reverse play reverse",
             },
           });
+        }
+
+        if (darkenedImage) {
+          gsap.fromTo(
+            darkenedImage,
+            { filter: "brightness(1)" },
+            {
+              filter: "brightness(0.42)",
+              ease: "none",
+              scrollTrigger: {
+                trigger: frame,
+                containerAnimation: horizontalTween,
+                start: "left 82%",
+                end: "left 14%",
+                scrub: 0.45,
+              },
+            },
+          );
         }
       });
 

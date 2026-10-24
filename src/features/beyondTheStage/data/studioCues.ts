@@ -7,7 +7,7 @@ export type StudioQuote = {
 const studioQuotes: StudioQuote[] = [
   {
     id: "guitar",
-    quote: "“I love the sound of that guitar.”",
+    quote: "“I love the sound of that guitar.",
   },
   {
     id: "lamppost",

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { GalleryPhoto } from "@/features/lastShow/data/lastShowData";
 
 type LastShowGalleryColumnProps = {
@@ -20,12 +21,13 @@ export default function LastShowGalleryColumn({
           aria-label={`View full screen: ${photo.alt}`}
           className="group relative flex-1 overflow-hidden rounded-xl bg-foreground/3 shadow-lg cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
         >
-          <img
+          <Image
             data-parallax-img
             src={photo.src}
             alt={photo.alt}
-            className="size-full object-cover scale-[1.18] will-change-transform"
-            loading="lazy"
+            fill
+            sizes="(max-width: 640px) 260px, (max-width: 768px) 300px, 340px"
+            className="object-cover scale-[1.18] will-change-transform"
             draggable={false}
           />
           <div

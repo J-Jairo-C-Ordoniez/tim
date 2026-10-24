@@ -56,7 +56,7 @@ export default function DocumentaryScene({
       )}
 
       <div
-        className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-[8vw]"
+        className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 sm:px-12 md:px-16"
         aria-live="polite"
       >
         {captionCues.map((cue) => (
@@ -64,7 +64,7 @@ export default function DocumentaryScene({
             key={cue.id}
             data-caption={cue.id}
             aria-label={cue.text}
-            className="absolute max-w-4xl translate-y-2 text-center text-3xl md:text-4xl lg:text-5xl font-light tracking-tight leading-relaxed text-foreground opacity-0"
+            className="absolute w-full max-w-4xl px-4 sm:px-8 translate-y-2 text-center text-lg sm:text-2xl md:text-4xl lg:text-5xl font-light tracking-tight leading-relaxed text-foreground opacity-0"
           >
             <CaptionText segments={cue.segments} />
           </p>

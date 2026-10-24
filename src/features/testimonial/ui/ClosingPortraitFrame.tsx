@@ -1,4 +1,5 @@
 import type { RefObject } from "react";
+import Image from "next/image";
 
 type ClosingPortraitFrameProps = {
   photoWrapRef: RefObject<HTMLElement | null>;
@@ -14,13 +15,15 @@ export default function ClosingPortraitFrame({
       ref={photoWrapRef}
       className="pointer-events-none absolute inset-0 z-10 size-full overflow-hidden"
     >
-      <img
+      <Image
         ref={imgRef}
         src="/beyondTheStage6.png"
         alt="Tim Bergling portrait"
-        className="size-full object-cover will-change-[transform,opacity]"
+        fill
+        sizes="100vw"
+        className="object-cover will-change-[transform,opacity]"
         draggable={false}
-        loading="eager"
+        priority
       />
       <div className="absolute inset-0 bg-background/25" aria-hidden="true" />
       <div

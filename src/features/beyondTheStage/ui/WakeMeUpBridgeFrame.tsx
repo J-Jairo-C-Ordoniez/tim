@@ -1,4 +1,5 @@
 import type { RefObject } from "react";
+import SplitWords from "@/features/beyondTheStage/ui/SplitWords";
 
 type WakeMeUpBridgeFrameProps = {
   figureRef: RefObject<HTMLElement | null>;
@@ -34,11 +35,11 @@ export default function WakeMeUpBridgeFrame({
         onTimeUpdate={onTimeUpdate}
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-background/30"
+        className="pointer-events-none absolute inset-0 bg-black/20"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-linear-to-t from-background via-transparent to-background/70"
+        className="pointer-events-none absolute inset-0 bg-linear-to-t from-black via-transparent to-black/70"
         aria-hidden="true"
       />
 
@@ -48,18 +49,18 @@ export default function WakeMeUpBridgeFrame({
         aria-hidden="true"
       >
         <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
-        <div className="relative z-10 max-w-5xl px-4">
+        <div className="relative z-10 max-w-6xl px-4">
           <h2
             data-video-overlay-item
-            className="text-4xl font-light uppercase tracking-[0.22em] text-foreground sm:text-6xl md:text-7xl lg:text-8xl leading-tight"
+            className="text-5xl font-normal tracking-tight leading-none text-foreground sm:text-7xl md:text-8xl lg:text-9xl"
           >
-            Wake Me Up
+            <SplitWords text="Wake Me Up" animationTarget="video" />
           </h2>
           <p
             data-video-overlay-item
-            className="mt-6 text-sm sm:text-lg md:text-xl font-light uppercase tracking-[0.38em] text-foreground-muted/90"
+            className="mt-5 text-xl font-light tracking-tight text-foreground/80 sm:mt-6 sm:text-2xl md:text-3xl"
           >
-            A Listener’s Reflection
+            <SplitWords text="A Listener’s Reflection" animationTarget="video" />
           </p>
         </div>
       </div>

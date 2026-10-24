@@ -1,4 +1,5 @@
 import type { RefObject } from "react";
+import Image from "next/image";
 import SplitWords from "@/features/beyondTheStage/ui/SplitWords";
 
 type LamppostParallaxFrameProps = {
@@ -18,21 +19,23 @@ export default function LamppostParallaxFrame({
       data-frame
       className="relative flex h-svh w-screen shrink-0 items-center justify-center overflow-hidden px-6"
     >
-      <div
+      <figure
         ref={imgTopRef}
-        className="pointer-events-none absolute left-[8%] top-8 z-0 aspect-video w-56 overflow-hidden rounded-2xl shadow-2xl will-change-[transform,opacity] sm:left-[12%] sm:top-12 sm:w-80 md:w-96"
+        className="pointer-events-none absolute left-[4%] top-14 z-0 aspect-video w-64 overflow-hidden rounded-2xl shadow-2xl will-change-[transform,opacity] sm:left-[10%] sm:top-16 sm:w-96 md:left-[14%] md:w-md lg:left-[18%]"
       >
-        <img
+        <Image
           src="/beyondTheStage2.png"
           alt="Tim Bergling focused at the laptop in the studio"
-          className="size-full object-cover"
+          fill
+          sizes="(max-width: 640px) 256px, (max-width: 768px) 384px, 448px"
+          className="object-cover"
           draggable={false}
-          loading="eager"
+          priority
         />
-      </div>
+      </figure>
 
-      <div className="relative z-10 max-w-5xl px-4 text-center">
-        <p className="whitespace-nowrap text-xl font-light tracking-[0.06em] text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
+      <div className="relative z-10 max-w-6xl px-4 text-center">
+        <p className="text-3xl font-light tracking-tight leading-relaxed sm:text-5xl md:text-6xl lg:text-7xl">
           <SplitWords
             text="Under an old lamppost, I spoke your name."
             highlight="spoke"
@@ -40,18 +43,20 @@ export default function LamppostParallaxFrame({
         </p>
       </div>
 
-      <div
+      <figure
         ref={imgBottomRef}
-        className="pointer-events-none absolute bottom-8 right-[8%] z-0 aspect-video w-56 overflow-hidden rounded-2xl shadow-2xl will-change-[transform,opacity] sm:bottom-12 sm:right-[12%] sm:w-80 md:w-96"
+        className="pointer-events-none absolute bottom-14 right-[4%] z-0 aspect-video w-64 overflow-hidden rounded-2xl shadow-2xl will-change-[transform,opacity] sm:bottom-16 sm:right-[10%] sm:w-96 md:right-[14%] md:w-md lg:right-[18%]"
       >
-        <img
+        <Image
           src="/beyondTheStage3.png"
           alt="Tim Bergling by the studio equipment"
-          className="size-full object-cover"
+          fill
+          sizes="(max-width: 640px) 256px, (max-width: 768px) 384px, 448px"
+          className="object-cover"
           draggable={false}
-          loading="eager"
+          priority
         />
-      </div>
+      </figure>
     </section>
   );
 }

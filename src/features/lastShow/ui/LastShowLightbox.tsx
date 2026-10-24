@@ -1,4 +1,5 @@
 import { createPortal } from "react-dom";
+import Image from "next/image";
 
 type LastShowLightboxProps = {
   src: string;
@@ -38,11 +39,15 @@ export default function LastShowLightbox({
         </svg>
       </div>
 
-      <img
+      <Image
         src={src}
         alt={alt}
-        className="max-h-[90vh] max-w-[90vw] rounded-xl object-contain shadow-2xl"
+        width={1600}
+        height={1000}
+        sizes="90vw"
+        className="max-h-[90vh] max-w-[90vw] w-auto h-auto rounded-xl object-contain shadow-2xl"
         onClick={(e) => e.stopPropagation()}
+        priority
       />
     </button>,
     document.body,

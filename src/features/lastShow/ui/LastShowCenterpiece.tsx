@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type LastShowCenterpieceProps = {
   title: string;
   src: string;
@@ -26,12 +28,14 @@ export default function LastShowCenterpiece({
         aria-label={`View full screen: ${alt}`}
         className="group relative flex-1 min-h-0 overflow-hidden rounded-xl cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
       >
-        <img
+        <Image
           src={src}
           alt={alt}
-          className="size-full object-cover brightness-95 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-          loading="eager"
+          fill
+          sizes="(max-width: 768px) 100vw, 896px"
+          className="object-cover brightness-95 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           draggable={false}
+          priority
         />
         <div
           className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
