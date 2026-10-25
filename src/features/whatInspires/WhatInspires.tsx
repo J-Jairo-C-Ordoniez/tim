@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import InspirationClosingScene from "@/features/whatInspires/scenes/InspirationClosingScene";
-import InspirationGalleryScene from "@/features/whatInspires/scenes/InspirationGalleryScene";
 import InspirationIntroScene from "@/features/whatInspires/scenes/InspirationIntroScene";
+import InspirationListScene from "@/features/whatInspires/scenes/InspirationListScene";
 
 type WhatInspiresProps = {
   enabled: boolean;
@@ -27,10 +27,10 @@ export default function WhatInspires({ enabled }: WhatInspiresProps) {
     <section
       ref={root}
       className="relative w-full bg-background"
-      aria-label="What Inspires: The living legacy of Avicii"
+      aria-label="What inspires: Avicii's living legacy"
     >
       <InspirationIntroScene enabled={enabled} />
-      <InspirationGalleryScene enabled={enabled} />
+      <InspirationListScene enabled={enabled} />
       <InspirationClosingScene enabled={enabled} />
     </section>
   );

@@ -7,7 +7,6 @@ type WakeMeUpBridgeFrameProps = {
   overlayRef: RefObject<HTMLDivElement | null>;
   onLoadedMetadata: () => void;
   onTimeUpdate: () => void;
-  onUnlockScroll: () => void;
 };
 
 export default function WakeMeUpBridgeFrame({
@@ -16,13 +15,11 @@ export default function WakeMeUpBridgeFrame({
   overlayRef,
   onLoadedMetadata,
   onTimeUpdate,
-  onUnlockScroll,
 }: WakeMeUpBridgeFrameProps) {
   return (
     <figure
       ref={figureRef}
       data-frame
-      onClick={onUnlockScroll}
       className="relative flex h-svh w-screen min-w-screen shrink-0 items-center justify-center overflow-hidden bg-background isolate z-10"
     >
       <video

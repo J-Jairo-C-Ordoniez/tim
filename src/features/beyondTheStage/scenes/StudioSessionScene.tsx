@@ -41,6 +41,7 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
   const videoWakeMeUpRef = useRef<HTMLVideoElement>(null);
   const videoOverlayRef = useRef<HTMLDivElement>(null);
   const hasEndedRef = useRef(false);
+  const hasVideoStartedRef = useRef(false);
   const unlockScrollRef = useRef<(() => void) | null>(null);
 
   const lockUserScroll = useCallback(() => {
@@ -94,6 +95,8 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
   const handleLoadedMetadata = useCallback(() => {
     if (videoWakeMeUpRef.current) {
       videoWakeMeUpRef.current.currentTime = 0;
+      hasEndedRef.current = false;
+      hasVideoStartedRef.current = false;
     }
   }, []);
 
@@ -202,13 +205,18 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
             const vid = videoWakeMeUpRef.current;
             if (!vid) return;
 
-            // The final frame is aligned only when the horizontal scroll has
-            // completely finished. Locking before this point lets a fast wheel
-            // gesture strand the visitor between the previous frame and video.
-            const hasReachedVideoFrame = self.progress >= 0.999;
+            // Snap to the exact end before locking. A wheel gesture can carry
+            // the document beyond a pinned section in one update otherwise,
+            // leaving the video only partly visible.
+            const hasReachedVideoFrame = self.progress >= 0.998;
 
             if (hasReachedVideoFrame) {
               if (!hasEndedRef.current) {
+                if (!hasVideoStartedRef.current) {
+                  hasVideoStartedRef.current = true;
+                  gsap.set(trackEl, { x: -getScrollDistance() });
+                  self.scroll(self.end);
+                }
                 if (vid.paused && !hasReachedVideoEnd(vid)) {
                   playWakeMeUp();
                 }
@@ -358,18 +366,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         });
       }
 
-      ScrollTrigger.create({
-        trigger: containerEl,
-        start: "bottom top",
-        onEnter: () => pauseWakeMeUp(),
-        onLeaveBack: () => {
-          const vid = videoWakeMeUpRef.current;
-          if (vid && !hasReachedVideoEnd(vid)) {
-            playWakeMeUp();
-          }
-        },
-      });
-
       return () => {
         horizontalTween.scrollTrigger?.kill();
       };
@@ -407,7 +403,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
           overlayRef={videoOverlayRef}
           onLoadedMetadata={handleLoadedMetadata}
           onTimeUpdate={handleTimeUpdate}
-          onUnlockScroll={unlockUserScroll}
         />
       </div>
     </section>

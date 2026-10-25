@@ -30,7 +30,8 @@ export default function InspirationClosingScene({ enabled }: InspirationClosingS
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       if (prefersReducedMotion) {
-        gsap.set([f1, f2], { autoAlpha: 1, y: 0, scale: 1 });
+        gsap.set(f1, { autoAlpha: 0 });
+        gsap.set(f2, { autoAlpha: 1, y: 0, scale: 1 });
         return;
       }
 
@@ -72,12 +73,11 @@ export default function InspirationClosingScene({ enabled }: InspirationClosingS
       <InspirationLegacyQuoteFrame
         frameRef={frame1Ref}
         quote={inspirationData.closing.quote}
-        author={inspirationData.closing.author}
       />
       <InspirationSparkFrame
         frameRef={frame2Ref}
-        callout={inspirationData.closing.callout}
-        signature={inspirationData.closing.signature}
+        name={inspirationData.closing.name}
+        dates={inspirationData.closing.dates}
       />
     </section>
   );

@@ -869,3 +869,59 @@ Antes de desarrollar la experiencia final, será necesario:
 - Determinar qué materiales audiovisuales pueden utilizarse y bajo qué condiciones.
 - Diseñar la transición entre la infancia de Tim, su acercamiento a la música y el desarrollo de su identidad artística.
 - Evitar atribuir pensamientos, motivaciones o palabras a Tim cuando no exista una fuente que los respalde.
+
+---
+
+## 16. Public Credits, Sources & Rights
+
+The public credits sequence at the end of the experience identifies the external material and community research that informed the project.
+
+### Audiovisual and editorial sources
+
+- **Hero documentary footage** — [Heartbreaking moment from Avicii's True Stories](https://youtu.be/0y_xW8yZ78k?si=4VL3kJgzlcLZSN32), published on YouTube by Kevin. Used as the source for `public/HeroTimIntro.mp4`.
+- **Studio imagery and *For A Better Day* material** — [Avicii – Stories on Stories Ep.1 – The Making of For A Better Day (Full version)](https://youtu.be/AddctCEB_Zc?si=hXCJl6SfBnV9BiQ7), from the Avicii YouTube channel. This informed the studio imagery used in the Beyond the Stage sequence.
+- **Wake Me Up footage** — [The Making of Wake Me Up by Avicii](https://youtu.be/qmq7UzSfr-U?si=h11TyfJvJKs3QD_R), from the Avicii YouTube channel. This is the source credited for `public/WakeMeUp.mp4`.
+- **Listener testimony** — the first YouTube comment on [Avicii – Stories on Stories Ep. 3 – The Lost Tapes](https://youtu.be/4FR1UMIHVo4?si=BUWEHR76cqH2pEbC), from the Avicii YouTube channel. The testimonial is presented as community testimony and should not be attributed to Tim Bergling.
+- **Final show research and imagery context** — [Closing Party Ushuaïa — Last Show 2016](https://aviciicommunity.com/shows/last-show-2016), published by Avicii Community.
+
+### Community research
+
+The research phase was informed by community activity and discussion across Reddit, Discord, YouTube comments, and official web resources. Community contributions are treated as community perspectives, not as official statements or verified biographical facts unless independently sourced.
+
+### Project credit
+
+- **Creative direction and development** — [Jhon Jairo C. Ordoñez](https://j-jairo-c-ordonez.vercel.app/)
+
+### Rights and publication note
+
+TIM is an independent, non-commercial fan project created as a commemorative experience. It does not claim ownership of third-party video, imagery, trademarks, names, or other copyrighted material; those rights remain with their respective owners. Sources are linked for attribution and traceability, and no affiliation with or endorsement by Tim Bergling, Avicii, their estate, YouTube, Avicii Community, or any other referenced party is implied.
+
+Attribution does not replace any permission, licence, or clearance a rights holder may require. Before public deployment, redistribution, commercial use, or promotional use of third-party material, confirm the applicable rights and obtain any necessary authorizations. The closing portrait asset (`public/TimClosing.webp`) should also have its rights holder and usage permission recorded before production release.
+
+For a credit correction or a removal request, contact the creator through the portfolio above.
+
+---
+
+## 17. SEO and Social Sharing
+
+The app includes technical SEO and sharing assets in `src/app/`:
+
+- `layout.tsx`: title, description, canonical URL, Open Graph, X/Twitter, robots directives, favicon and manifest metadata.
+- `opengraph-image.tsx`: generated 1200 × 630 social preview for link sharing.
+- `robots.ts` and `sitemap.ts`: crawl policy and sitemap route.
+- `manifest.ts`: installable web-app metadata using `public/aviciiLogo.png` as its icon.
+- `page.tsx`: visible semantic H1 and `WebSite` JSON-LD structured data that identifies the experience as an independent tribute.
+
+### Deployment configuration
+
+Set this environment variable in the production host before deploying:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://tim-azure.vercel.app
+```
+
+This value generates the canonical URL, sitemap URLs and absolute social metadata. On Vercel, `VERCEL_URL` is used as a fallback; the explicit production URL is still recommended so social previews and canonical indexing always use the intended domain.
+
+### Search Console checklist
+
+After deployment, submit `https://tim-azure.vercel.app/sitemap.xml` to Google Search Console and request indexing for the home page. Use the Open Graph preview tools for the social networks where the project will be shared to refresh cached previews after a metadata change.

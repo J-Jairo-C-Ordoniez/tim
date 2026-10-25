@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BeyondTheStage from "@/features/beyondTheStage/BeyondTheStage";
+import Credits from "@/features/credits/Credits";
 import Hero from "@/features/hero/Hero";
 import LastShow from "@/features/lastShow/LastShow";
 import Testimonial from "@/features/testimonial/Testimonial";
@@ -35,6 +36,7 @@ export default function HomeExperience() {
       <Testimonial enabled={heroComplete} />
       <LastShow enabled={heroComplete} />
       <WhatInspires enabled={heroComplete} />
+      <Credits enabled={heroComplete} />
     </main>
   );
 }
