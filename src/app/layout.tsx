@@ -35,13 +35,13 @@ export const metadata: Metadata = {
     description: siteMetadata.description,
     siteName: siteMetadata.name,
     locale: siteMetadata.locale,
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "TIM — An Interactive Tribute to Avicii" }],
+    images: [{ url: "/TimClosing.webp", width: 1200, height: 630, alt: "TIM — An Interactive Tribute to Avicii" }],
   },
   twitter: {
     card: "summary_large_image",
     title: siteMetadata.title,
     description: siteMetadata.description,
-    images: ["/opengraph-image"],
+    images: ["/TimClosing.webp"],
   },
   robots: {
     index: true,
