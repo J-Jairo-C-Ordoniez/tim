@@ -3,12 +3,17 @@
 import { useCallback, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import posthog from "posthog-js";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { lastShowData } from "@/features/lastShow/data/lastShowData";
 import LastShowCenterpiece from "@/features/lastShow/ui/LastShowCenterpiece";
 import LastShowGalleryColumn from "@/features/lastShow/ui/LastShowGalleryColumn";
 import LastShowLightbox from "@/features/lastShow/ui/LastShowLightbox";
 import LastShowTitlePanel from "@/features/lastShow/ui/LastShowTitlePanel";
+
+const isPostHogConfigured = Boolean(
+  process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NEXT_PUBLIC_POSTHOG_HOST,
+);
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,6 +33,10 @@ export default function LastShowGalleryScene({ enabled }: LastShowGalleryScenePr
   const [lightbox, setLightbox] = useState<LightboxState>(null);
 
   const openLightbox = useCallback((src: string, alt: string) => {
+    if (isPostHogConfigured) {
+      posthog.capture("last_show_photo_opened");
+    }
+
     setLightbox({ src, alt });
   }, []);
 

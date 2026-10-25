@@ -3,10 +3,15 @@
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import posthog from "posthog-js";
 import captionCues from "@/features/hero/data/captionCues";
 import DocumentaryScene from "@/features/hero/scenes/DocumentaryScene";
 import HeroTransitionScene from "@/features/hero/scenes/HeroTransitionScene";
 import IntroScene from "@/features/hero/scenes/IntroScene";
+
+const isPostHogConfigured = Boolean(
+  process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NEXT_PUBLIC_POSTHOG_HOST,
+);
 
 function createCaptionTimeline() {
   const timeline = gsap.timeline().set("[data-caption], [data-caption-character]", { autoAlpha: 0 });
@@ -69,6 +74,11 @@ export default function Hero({ onComplete }: HeroProps) {
 
   const handleStart = (withSound: boolean) => {
     if (hasStarted) return;
+
+    if (isPostHogConfigured) {
+      posthog.capture("tribute_entered", { with_sound: withSound });
+    }
+
     setHasStarted(true);
     setIsMuted(!withSound);
 
@@ -143,6 +153,10 @@ export default function Hero({ onComplete }: HeroProps) {
     const vid = video.current;
     if (!vid) return;
     const nextMuted = !vid.muted;
+    if (isPostHogConfigured) {
+      posthog.capture("hero_audio_toggled", { muted: nextMuted });
+    }
+
     vid.muted = nextMuted;
     setIsMuted(nextMuted);
   };
