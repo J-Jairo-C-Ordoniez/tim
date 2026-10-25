@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteMetadata, siteUrl } from "@/app/site";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -58,7 +59,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="hero-is-playing h-full antialiased">
-      <body className="min-h-full bg-background text-foreground">{children}</body>
+      <body className="min-h-full bg-background text-foreground">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
