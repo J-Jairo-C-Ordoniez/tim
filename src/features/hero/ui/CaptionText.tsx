@@ -7,18 +7,22 @@ type CaptionTextProps = {
 
 const toneClasses = {
   context: "font-light text-foreground/70",
-  emotional: "font-normal text-foreground",
+  emotional: "font-normal text-foreground drop-shadow-[0_0_14px_rgba(239,237,227,0.18)]",
 } as const;
 
 export default function CaptionText({ segments }: CaptionTextProps) {
   return (
     <>
-      {segments.map((segment) => (
-        <span key={segment.text} className={toneClasses[segment.tone]} aria-hidden="true">
+      {segments.map((segment, segmentIndex) => (
+        <span key={`${segment.text}-${segmentIndex}`} className={toneClasses[segment.tone]} aria-hidden="true">
           {segment.text.split(" ").map((word, wordIndex) => (
-            <span key={`${word}-${wordIndex}`} className="inline-block whitespace-nowrap">
+            <span key={`${word}-${segmentIndex}-${wordIndex}`} className="inline-block whitespace-nowrap">
               {Array.from(word).map((character, characterIndex) => (
-                <span key={`${character}-${characterIndex}`} data-caption-character className="inline-block opacity-0">
+                <span
+                  key={`${character}-${segmentIndex}-${wordIndex}-${characterIndex}`}
+                  data-caption-character
+                  className="inline-block opacity-0"
+                >
                   {character}
                 </span>
               ))}

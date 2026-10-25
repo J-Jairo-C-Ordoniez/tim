@@ -14,18 +14,18 @@ export default function ClosingPhraseFrame({
   return (
     <div
       ref={phraseWrapRef}
-      className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center"
+      className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-5 text-center sm:px-10 lg:px-16"
     >
-      <h2 className="max-w-4xl text-3xl font-light leading-tight tracking-wide text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+      <h2 className="max-w-[78rem] px-4 text-3xl font-light tracking-tight leading-relaxed text-foreground/75 sm:text-5xl md:text-6xl lg:text-7xl">
         <span
           ref={line1Ref}
-          className="block font-extralight text-foreground-muted will-change-[transform,opacity]"
+          className="block will-change-[transform,opacity]"
         >
           Avicii is no longer with us.
         </span>
         <span
           ref={line2Ref}
-          className="mt-3 block font-normal text-foreground will-change-[transform,opacity] sm:mt-5"
+          className="mt-3 block text-foreground will-change-[transform,opacity] sm:mt-5"
         >
           He is within us.
         </span>

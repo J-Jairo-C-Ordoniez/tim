@@ -15,6 +15,16 @@ import WakeMeUpBridgeFrame from "@/features/beyondTheStage/ui/WakeMeUpBridgeFram
 
 gsap.registerPlugin(ScrollTrigger);
 
+const VIDEO_END_TOLERANCE = 0.15;
+
+function hasReachedVideoEnd(video: HTMLVideoElement) {
+  return (
+    Number.isFinite(video.duration) &&
+    video.duration > 0 &&
+    video.currentTime >= video.duration - VIDEO_END_TOLERANCE
+  );
+}
+
 type StudioSessionSceneProps = {
   enabled: boolean;
 };
@@ -83,7 +93,7 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
 
   const handleLoadedMetadata = useCallback(() => {
     if (videoWakeMeUpRef.current) {
-      videoWakeMeUpRef.current.currentTime = 26;
+      videoWakeMeUpRef.current.currentTime = 0;
     }
   }, []);
 
@@ -91,10 +101,10 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
     const vid = videoWakeMeUpRef.current;
     if (!vid) return;
 
-    if (vid.currentTime >= 98 && !hasEndedRef.current) {
+    if (hasReachedVideoEnd(vid) && !hasEndedRef.current) {
       hasEndedRef.current = true;
       vid.pause();
-      vid.currentTime = 98;
+      vid.currentTime = vid.duration;
 
       unlockUserScroll();
 
@@ -143,8 +153,8 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         const vid = videoWakeMeUpRef.current;
         if (!vid) return;
 
-        if (vid.currentTime < 26 || vid.currentTime >= 98) {
-          vid.currentTime = 26;
+        if (hasReachedVideoEnd(vid)) {
+          vid.currentTime = 0;
         }
 
         vid.muted = false;
@@ -188,19 +198,18 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onUpdate: () => {
+          onUpdate: (self) => {
             const vid = videoWakeMeUpRef.current;
-            const frame8 = frame8Ref.current;
-            if (!vid || !frame8) return;
+            if (!vid) return;
 
-            const rect = frame8.getBoundingClientRect();
-            const isOccupying =
-              rect.left <= Math.max(60, window.innerWidth * 0.1) &&
-              rect.right >= window.innerWidth * 0.9;
+            // The final frame is aligned only when the horizontal scroll has
+            // completely finished. Locking before this point lets a fast wheel
+            // gesture strand the visitor between the previous frame and video.
+            const hasReachedVideoFrame = self.progress >= 0.999;
 
-            if (isOccupying) {
+            if (hasReachedVideoFrame) {
               if (!hasEndedRef.current) {
-                if (vid.paused && vid.currentTime < 98) {
+                if (vid.paused && !hasReachedVideoEnd(vid)) {
                   playWakeMeUp();
                 }
                 lockUserScroll();
@@ -355,7 +364,7 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         onEnter: () => pauseWakeMeUp(),
         onLeaveBack: () => {
           const vid = videoWakeMeUpRef.current;
-          if (vid && vid.currentTime < 98) {
+          if (vid && !hasReachedVideoEnd(vid)) {
             playWakeMeUp();
           }
         },

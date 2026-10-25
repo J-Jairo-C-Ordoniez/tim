@@ -8,11 +8,11 @@ export default function TestimonialPart3Frame({ frameRef }: TestimonialPart3Fram
   return (
     <div
       ref={frameRef}
-      className="pointer-events-none absolute inset-0 flex items-center justify-center px-8 text-center"
+      className="pointer-events-none absolute inset-0 flex items-center justify-center px-5 text-center sm:px-10 lg:px-16"
     >
-      <p className="max-w-4xl text-2xl font-light leading-relaxed tracking-wide text-foreground sm:text-4xl md:text-5xl lg:text-[3.25rem]">
-        I felt an immense pain upon learning that he couldn’t save himself. But... I understand.
-        May this bring them comfort.”
+      <p className="max-w-[78rem] px-4 text-3xl font-light tracking-tight leading-relaxed text-foreground/75 sm:text-5xl md:text-6xl lg:text-7xl">
+        a song of Tim’s <span className="text-foreground">saved me: Wake Me Up.</span> It moved me deeply,
+        at the exact right moment.
       </p>
     </div>
   );

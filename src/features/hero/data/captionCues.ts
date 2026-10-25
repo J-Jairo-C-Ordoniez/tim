@@ -7,7 +7,8 @@ const captionCues = [
     segments: [
       { text: "I didn't believe ", tone: "context" },
       { text: "I could actually slow down.", tone: "emotional" },
-      { text: " I didn't believe that I could tour any differently than this.", tone: "context" },
+      { text: " I didn't believe that I could tour ", tone: "context" },
+      { text: "any differently than this.", tone: "emotional" },
     ],
   },
   {
@@ -16,7 +17,8 @@ const captionCues = [
     end: 17,
     text: "I looked around and saw everyone else doing what I was doing. They seemed to be doing fine.",
     segments: [
-      { text: "I looked around and saw everyone else doing what I was doing. ", tone: "context" },
+      { text: "I looked around and saw ", tone: "context" },
+      { text: "everyone else doing what I was doing. ", tone: "emotional" },
       { text: "They seemed to be doing fine.", tone: "emotional" },
     ],
   },
@@ -26,7 +28,8 @@ const captionCues = [
     end: 25,
     text: "I can't read minds, but they looked like they were doing fine. Then I started to feel crazy.",
     segments: [
-      { text: "I can't read minds, but they looked like they were doing fine. ", tone: "context" },
+      { text: "I can't read minds, but they looked like ", tone: "context" },
+      { text: "they were doing fine. ", tone: "emotional" },
       { text: "Then I started to feel crazy.", tone: "emotional" },
     ],
   },
@@ -48,7 +51,7 @@ const captionCues = [
     segments: [
       { text: "I didn't have time ", tone: "context" },
       { text: "to properly stop. ", tone: "emotional" },
-      { text: "What I should have done was stop.", tone: "context" },
+      { text: "What I should have done was stop.", tone: "emotional" },
     ],
   },
   {
@@ -67,8 +70,12 @@ const captionCues = [
     end: 58,
     text: "Recover from the pain. Recover from the illnesses. Recover from all of it.",
     segments: [
-      { text: "Recover from the pain. Recover from the illnesses. ", tone: "context" },
-      { text: "Recover from all of it.", tone: "emotional" },
+      { text: "Recover from the ", tone: "context" },
+      { text: "pain. ", tone: "emotional" },
+      { text: "Recover from the ", tone: "context" },
+      { text: "illnesses. ", tone: "emotional" },
+      { text: "Recover from ", tone: "context" },
+      { text: "all of it.", tone: "emotional" },
     ],
   },
   {
@@ -77,7 +84,8 @@ const captionCues = [
     end: 65,
     text: "All those years of touring. All this stress. But I kept going.",
     segments: [
-      { text: "All those years of touring. All this stress. ", tone: "context" },
+      { text: "All those years of touring. ", tone: "context" },
+      { text: "All this stress. ", tone: "emotional" },
       { text: "But I kept going.", tone: "emotional" },
     ],
   },

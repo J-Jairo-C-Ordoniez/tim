@@ -17,7 +17,7 @@ export default function LastShowCenterpiece({
 }: LastShowCenterpieceProps) {
   return (
     <div className="flex h-[88vh] w-[68vw] min-w-120 max-w-4xl shrink-0 flex-col gap-4">
-      <h3 className="text-2xl font-light uppercase tracking-[0.2em] text-foreground sm:text-3xl md:text-4xl shrink-0">
+      <h3 className="shrink-0 text-3xl font-light tracking-tight leading-relaxed text-foreground/75 sm:text-5xl md:text-6xl lg:text-7xl">
         {title}
       </h3>
 
@@ -60,7 +60,7 @@ export default function LastShowCenterpiece({
 
       <p
         data-centerpiece-desc
-        className="text-xs font-light leading-relaxed tracking-wide text-foreground-muted sm:text-sm shrink-0"
+        className="shrink-0 text-lg font-light tracking-tight leading-relaxed text-foreground/70 sm:text-2xl md:text-4xl lg:text-5xl"
       >
         {description}
       </p>

@@ -12,9 +12,9 @@ export default function LastShowQuoteFrame({
   return (
     <div
       ref={frameRef}
-      className="pointer-events-none absolute inset-0 flex items-center justify-center px-6 sm:px-12 md:px-20 text-center"
+      className="pointer-events-none absolute inset-0 flex items-center justify-center px-5 text-center sm:px-10 lg:px-16"
     >
-      <blockquote className="max-w-4xl text-2xl font-light leading-relaxed tracking-wide text-foreground sm:text-4xl md:text-5xl lg:text-[3.15rem]">
+      <blockquote className="max-w-[78rem] px-4 text-3xl font-light tracking-tight leading-relaxed text-foreground/75 sm:text-5xl md:text-6xl lg:text-7xl">
         {quote}
       </blockquote>
     </div>
