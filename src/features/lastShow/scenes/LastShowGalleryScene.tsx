@@ -50,9 +50,6 @@ export default function LastShowGalleryScene({ enabled }: LastShowGalleryScenePr
 
       const trackEl = track.current;
       const containerEl = container.current;
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) return;
 
       const getScrollDistance = () => trackEl.scrollWidth - window.innerWidth;
 

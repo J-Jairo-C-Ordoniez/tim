@@ -50,24 +50,11 @@ export default function Hero({ onComplete }: HeroProps) {
 
   useGSAP(
     () => {
-      const media = gsap.matchMedia();
-
-      media.add("(prefers-reduced-motion: no-preference)", () => {
-        const introTl = gsap.timeline();
-        introTl
-          .to("[data-before-avicii]", { autoAlpha: 1, y: 0, duration: 1.2, ease: "power3.out" }, "+=0.5")
-          .to("[data-tim]", { autoAlpha: 1, y: 0, duration: 1.4, ease: "power3.out" }, "+=0.5")
-          .to("[data-intro-actions]", { autoAlpha: 1, y: 0, duration: 0.9, ease: "power2.out" }, "+=0.2");
-      });
-
-      media.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set("[data-before-avicii], [data-tim], [data-intro-actions]", {
-          autoAlpha: 1,
-          y: 0,
-        });
-      });
-
-      return () => media.revert();
+      const introTl = gsap.timeline();
+      introTl
+        .to("[data-before-avicii]", { autoAlpha: 1, y: 0, duration: 1.2, ease: "power3.out" }, "+=0.5")
+        .to("[data-tim]", { autoAlpha: 1, y: 0, duration: 1.4, ease: "power3.out" }, "+=0.5")
+        .to("[data-intro-actions]", { autoAlpha: 1, y: 0, duration: 0.9, ease: "power2.out" }, "+=0.2");
     },
     { scope: frame, dependencies: [] },
   );

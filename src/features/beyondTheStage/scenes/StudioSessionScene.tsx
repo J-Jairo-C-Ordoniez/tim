@@ -143,11 +143,6 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
 
       const trackEl = track.current;
       const containerEl = container.current;
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) {
-        return;
-      }
 
       const getScrollDistance = () =>
         frame8Ref.current ? frame8Ref.current.offsetLeft : trackEl.scrollWidth - window.innerWidth;

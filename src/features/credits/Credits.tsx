@@ -60,12 +60,6 @@ export default function Credits({ enabled }: CreditsProps) {
       if (!enabled || !container.current || !roll.current) return;
 
       const rollElement = roll.current;
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) {
-        gsap.set(rollElement, { y: 0 });
-        return;
-      }
 
       const getRollDistance = () => rollElement.scrollHeight + window.innerHeight * 0.42;
 

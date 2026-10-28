@@ -24,13 +24,6 @@ export default function InspirationIntroScene({ enabled }: InspirationIntroScene
       const f1 = frame1Ref.current;
       if (!f1) return;
 
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) {
-        gsap.set(f1, { autoAlpha: 1, y: 0, scale: 1 });
-        return;
-      }
-
       gsap.set(f1, { autoAlpha: 0, y: 35, scale: 0.95 });
 
       const tl = gsap.timeline({

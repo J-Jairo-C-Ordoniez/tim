@@ -27,14 +27,6 @@ export default function InspirationClosingScene({ enabled }: InspirationClosingS
       const f2 = frame2Ref.current;
       if (!f1 || !f2) return;
 
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) {
-        gsap.set(f1, { autoAlpha: 0 });
-        gsap.set(f2, { autoAlpha: 1, y: 0, scale: 1 });
-        return;
-      }
-
       gsap.set([f1, f2], { autoAlpha: 0, y: 35, scale: 0.95 });
 
       const tl = gsap.timeline({

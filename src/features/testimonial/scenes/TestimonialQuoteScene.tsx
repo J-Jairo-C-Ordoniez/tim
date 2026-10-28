@@ -35,13 +35,6 @@ export default function TestimonialQuoteScene({ enabled }: TestimonialQuoteScene
       const p5 = part5Ref.current;
       if (!p1 || !p2 || !p3 || !p4 || !p5) return;
 
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) {
-        gsap.set([p1, p2, p3, p4, p5], { autoAlpha: 1, y: 0, scale: 1 });
-        return;
-      }
-
       gsap.set([p1, p2, p3, p4, p5], { autoAlpha: 0, y: 35, scale: 0.95 });
 
       const tl = gsap.timeline({

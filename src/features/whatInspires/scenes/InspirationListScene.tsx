@@ -23,12 +23,6 @@ export default function InspirationListScene({ enabled }: InspirationListScenePr
 
       const frame = frameRef.current;
       const items = Array.from(frame.querySelectorAll<HTMLElement>("[data-inspiration-list-item]"));
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) {
-        gsap.set(items, { autoAlpha: 1, y: 0 });
-        return;
-      }
 
       gsap.set(items, { autoAlpha: 0, y: 28 });
 

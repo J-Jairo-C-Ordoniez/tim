@@ -24,13 +24,6 @@ export default function LyricTransitionScene({ enabled }: LyricTransitionScenePr
       const p2 = phrase2Ref.current;
       if (!p1 || !p2) return;
 
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) {
-        gsap.set([p1, p2], { autoAlpha: 1 });
-        return;
-      }
-
       gsap.set(p1, { autoAlpha: 0, y: 35, scale: 0.94 });
       gsap.set(p2, { autoAlpha: 0, y: 35, scale: 0.94 });
 

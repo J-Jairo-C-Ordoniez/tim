@@ -25,14 +25,6 @@ export default function ClosingScene({ enabled }: ClosingSceneProps) {
     () => {
       if (!enabled || !container.current) return;
 
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) {
-        gsap.set(phraseWrapRef.current, { autoAlpha: 1, y: 0 });
-        gsap.set(photoWrapRef.current, { autoAlpha: 1 });
-        return;
-      }
-
       gsap.set(phraseWrapRef.current, { autoAlpha: 0 });
       gsap.set([line1Ref.current, line2Ref.current], { autoAlpha: 0, y: 28 });
       gsap.set(photoWrapRef.current, { autoAlpha: 0 });

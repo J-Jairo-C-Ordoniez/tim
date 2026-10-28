@@ -30,13 +30,6 @@ export default function LastShowMemorialScene({ enabled }: LastShowMemorialScene
       const f3 = frame3Ref.current;
       if (!f1 || !f2 || !f3) return;
 
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) {
-        gsap.set([f1, f2, f3], { autoAlpha: 1, y: 0, scale: 1 });
-        return;
-      }
-
       gsap.set([f1, f2, f3], { autoAlpha: 0, y: 35, scale: 0.95 });
 
       const tl = gsap.timeline({
