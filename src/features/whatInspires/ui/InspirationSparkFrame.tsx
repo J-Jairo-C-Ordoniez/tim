@@ -15,7 +15,7 @@ export default function InspirationSparkFrame({
   return (
     <div
       ref={frameRef}
-      className="pointer-events-none absolute inset-0 flex items-center overflow-hidden px-6 text-left sm:px-12 lg:px-[12vw]"
+      className="pointer-events-none motion-safe:absolute motion-safe:inset-0 motion-reduce:relative motion-reduce:min-h-[60svh] motion-reduce:w-full motion-reduce:rounded-2xl flex items-center overflow-hidden px-6 text-left sm:px-12 lg:px-[12vw]"
     >
       <Image
         src="/TimClosing.webp"

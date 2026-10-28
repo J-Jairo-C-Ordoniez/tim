@@ -53,55 +53,40 @@ type CreditsProps = {
 
 export default function Credits({ enabled }: CreditsProps) {
   const container = useRef<HTMLElement>(null);
-  const roll = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      if (!enabled || !container.current || !roll.current) return;
+      if (!enabled || !container.current) return;
 
-      const rollElement = roll.current;
+      const mm = gsap.matchMedia();
 
-      const getRollDistance = () => rollElement.scrollHeight + window.innerHeight * 0.42;
-
-      const rollTween = gsap.fromTo(
-        rollElement,
-        { y: () => window.innerHeight * 0.42 },
-        {
-          y: () => -rollElement.scrollHeight,
-          ease: "none",
-          scrollTrigger: {
-            trigger: container.current,
-            start: "top top",
-            end: () => `+=${Math.max(1, getRollDistance())}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: 1,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        },
-      );
-
-      const blocks = Array.from(rollElement.querySelectorAll<HTMLElement>("[data-credit-block]"));
-      gsap.set(blocks, { autoAlpha: 0, y: 28 });
-
-      blocks.forEach((block) => {
-        gsap.to(block, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.65,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: block,
-            containerAnimation: rollTween,
-            start: "top 88%",
-            end: "top 62%",
-            scrub: 0.35,
-          },
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const blocks = Array.from(container.current!.querySelectorAll<HTMLElement>("[data-credit-block]"));
+        blocks.forEach((block) => {
+          gsap.fromTo(
+            block,
+            { autoAlpha: 0, y: 28 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: block,
+                start: "top 88%",
+                toggleActions: "play none none reverse",
+              },
+            },
+          );
         });
       });
 
-      return () => rollTween.scrollTrigger?.kill();
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        const blocks = Array.from(container.current!.querySelectorAll<HTMLElement>("[data-credit-block]"));
+        gsap.set(blocks, { autoAlpha: 1, y: 0 });
+      });
+
+      return () => mm.revert();
     },
     { scope: container, dependencies: [enabled] },
   );
@@ -109,11 +94,10 @@ export default function Credits({ enabled }: CreditsProps) {
   return (
     <section
       ref={container}
-      className="relative h-svh w-full overflow-hidden bg-background"
+      className="relative min-h-svh w-full bg-background px-6 pt-24 pb-32 sm:px-12 sm:pt-32 sm:pb-40 lg:px-20"
       aria-label="Project credits and sources"
     >
-      <div ref={roll} className="absolute inset-x-0 top-0 px-6 pb-24 sm:px-12 lg:px-20">
-        <div className="mx-auto flex w-full max-w-4xl flex-col items-center text-center">
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center text-center">
           <div data-credit-block>
             <p className="text-xl font-light tracking-tight text-foreground/60 sm:text-2xl md:text-3xl">
             TIM
@@ -194,7 +178,6 @@ export default function Credits({ enabled }: CreditsProps) {
             Thank you for keeping the melody alive.
           </p>
         </div>
-      </div>
-    </section>
+      </section>
   );
 }

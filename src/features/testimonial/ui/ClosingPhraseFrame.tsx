@@ -14,7 +14,7 @@ export default function ClosingPhraseFrame({
   return (
     <div
       ref={phraseWrapRef}
-      className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-5 text-center sm:px-10 lg:px-16"
+      className="pointer-events-none motion-safe:absolute motion-safe:inset-0 motion-safe:z-20 motion-reduce:relative motion-reduce:min-h-[50svh] motion-reduce:w-full flex flex-col items-center justify-center px-5 text-center sm:px-10 lg:px-16"
     >
       <h2 className="max-w-312 px-4 text-3xl font-light tracking-tight leading-relaxed text-foreground/75 sm:text-5xl md:text-6xl lg:text-7xl">
         <span

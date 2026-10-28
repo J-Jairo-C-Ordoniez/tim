@@ -30,35 +30,41 @@ export default function LastShowMemorialScene({ enabled }: LastShowMemorialScene
       const f3 = frame3Ref.current;
       if (!f1 || !f2 || !f3) return;
 
-      gsap.set([f1, f2, f3], { autoAlpha: 0, y: 35, scale: 0.95 });
+      const mm = gsap.matchMedia();
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top top",
-          end: "+=310%",
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.7,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.set([f1, f2, f3], { autoAlpha: 0, y: 35, scale: 0.95 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container.current,
+            start: "top top",
+            end: "+=310%",
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.7,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        tl.to(f1, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: "power2.out" })
+          .to(f1, { autoAlpha: 1, y: 0, duration: 2 })
+          .to(f1, { autoAlpha: 0, y: -28, scale: 1.04, duration: 0.9, ease: "power2.in" })
+          .to({}, { duration: 0.3 })
+          .to(f2, { autoAlpha: 1, y: 0, scale: 1, duration: 1.1, ease: "power2.out" })
+          .to(f2, { autoAlpha: 1, y: 0, duration: 2.4 })
+          .to(f2, { autoAlpha: 0, y: -28, scale: 1.04, duration: 0.9, ease: "power2.in" })
+          .to({}, { duration: 0.3 })
+          .to(f3, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: "power2.out" })
+          .to(f3, { autoAlpha: 1, y: 0, duration: 2.2 });
       });
 
-      tl.to(f1, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: "power2.out" })
-        .to(f1, { autoAlpha: 1, y: 0, duration: 2 })
-        .to(f1, { autoAlpha: 0, y: -28, scale: 1.04, duration: 0.9, ease: "power2.in" })
-        .to({}, { duration: 0.3 })
-        .to(f2, { autoAlpha: 1, y: 0, scale: 1, duration: 1.1, ease: "power2.out" })
-        .to(f2, { autoAlpha: 1, y: 0, duration: 2.4 })
-        .to(f2, { autoAlpha: 0, y: -28, scale: 1.04, duration: 0.9, ease: "power2.in" })
-        .to({}, { duration: 0.3 })
-        .to(f3, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: "power2.out" })
-        .to(f3, { autoAlpha: 1, y: 0, duration: 2.2 });
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set([f1, f2, f3], { autoAlpha: 1, y: 0, scale: 1, clearProps: "transform,opacity" });
+      });
 
-      return () => {
-        tl.scrollTrigger?.kill();
-      };
+      return () => mm.revert();
     },
     { scope: container, dependencies: [enabled] },
   );
@@ -66,7 +72,7 @@ export default function LastShowMemorialScene({ enabled }: LastShowMemorialScene
   return (
     <section
       ref={container}
-      className="relative flex h-svh w-full items-center justify-center overflow-hidden bg-background"
+      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:flex-col motion-reduce:py-24 motion-reduce:gap-20 w-full items-center justify-center bg-background"
       aria-label="Avicii last show closing"
     >
       <LastShowDateFrame frameRef={frame1Ref} />

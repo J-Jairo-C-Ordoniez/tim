@@ -13,7 +13,7 @@ export default function ClosingPortraitFrame({
   return (
     <figure
       ref={photoWrapRef}
-      className="pointer-events-none absolute inset-0 z-10 size-full overflow-hidden"
+      className="pointer-events-none motion-safe:absolute motion-safe:inset-0 motion-safe:z-10 motion-reduce:relative motion-reduce:h-[70svh] motion-reduce:w-full motion-reduce:max-w-4xl motion-reduce:mx-auto motion-reduce:rounded-2xl motion-reduce:overflow-hidden size-full overflow-hidden"
     >
       <Image
         ref={imgRef}

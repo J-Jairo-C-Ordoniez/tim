@@ -8,7 +8,7 @@ export default function LastShowDateFrame({ frameRef }: LastShowDateFrameProps) 
   return (
     <div
       ref={frameRef}
-      className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-5 text-center sm:px-10 lg:px-16"
+      className="pointer-events-none motion-safe:absolute motion-safe:inset-0 motion-reduce:relative motion-reduce:min-h-[40svh] motion-reduce:w-full flex flex-col items-center justify-center px-5 text-center sm:px-10 lg:px-16"
     >
       <p className="text-5xl font-normal tracking-tight leading-none text-foreground sm:text-7xl md:text-8xl lg:text-9xl">
         August 28, 2016

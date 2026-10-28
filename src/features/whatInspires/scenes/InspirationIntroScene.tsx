@@ -24,28 +24,34 @@ export default function InspirationIntroScene({ enabled }: InspirationIntroScene
       const f1 = frame1Ref.current;
       if (!f1) return;
 
-      gsap.set(f1, { autoAlpha: 0, y: 35, scale: 0.95 });
+      const mm = gsap.matchMedia();
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top top",
-          end: "+=140%",
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.8,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.set(f1, { autoAlpha: 0, y: 35, scale: 0.95 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container.current,
+            start: "top top",
+            end: "+=140%",
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.8,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        tl.to(f1, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: "power2.out" })
+          .to(f1, { autoAlpha: 1, y: 0, duration: 2.4 })
+          .to(f1, { autoAlpha: 0, y: -30, scale: 1.04, duration: 0.9, ease: "power2.in" });
       });
 
-      tl.to(f1, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: "power2.out" })
-        .to(f1, { autoAlpha: 1, y: 0, duration: 2.4 })
-        .to(f1, { autoAlpha: 0, y: -30, scale: 1.04, duration: 0.9, ease: "power2.in" });
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(f1, { autoAlpha: 1, y: 0, scale: 1, clearProps: "transform,opacity" });
+      });
 
-      return () => {
-        tl.scrollTrigger?.kill();
-      };
+      return () => mm.revert();
     },
     { scope: container, dependencies: [enabled] },
   );
@@ -53,7 +59,7 @@ export default function InspirationIntroScene({ enabled }: InspirationIntroScene
   return (
     <section
       ref={container}
-      className="relative flex h-svh w-full items-center justify-center overflow-hidden bg-background"
+      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:py-24 w-full items-center justify-center bg-background"
       aria-label="Inspiration prelude"
     >
       <InspirationIntroFrame

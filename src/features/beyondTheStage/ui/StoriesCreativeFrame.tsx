@@ -15,7 +15,7 @@ export default function StoriesCreativeFrame({
     <article
       ref={articleRef}
       data-frame
-      className="relative flex h-svh w-screen shrink-0 items-center justify-center overflow-hidden px-5 sm:px-10 lg:px-16"
+      className="relative flex motion-safe:h-svh motion-safe:w-screen motion-safe:shrink-0 motion-reduce:min-h-[60svh] motion-reduce:w-full motion-reduce:rounded-2xl items-center justify-center overflow-hidden px-5 sm:px-10 lg:px-16"
     >
       <figure className="absolute inset-0 -z-10 overflow-hidden">
         <Image

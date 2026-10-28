@@ -5,7 +5,7 @@ export default function SynthesizerReactionFrame() {
   return (
     <article
       data-frame
-      className="flex h-svh w-screen shrink-0 items-center justify-center px-5 sm:px-10 lg:px-16"
+      className="flex motion-safe:h-svh motion-safe:w-screen motion-safe:shrink-0 motion-reduce:min-h-[60svh] motion-reduce:w-full items-center justify-center px-5 sm:px-10 lg:px-16"
     >
       <div className="flex w-full max-w-352 flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-20">
         <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-2xl shadow-2xl lg:w-[58%]">

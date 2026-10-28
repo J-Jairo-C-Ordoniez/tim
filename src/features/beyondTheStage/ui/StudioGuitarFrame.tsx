@@ -4,7 +4,7 @@ export default function StudioGuitarFrame() {
   return (
     <figure
       data-frame
-      className="flex h-svh w-screen shrink-0 items-center justify-center px-4 sm:px-8 lg:px-12"
+      className="flex motion-safe:h-svh motion-safe:w-screen motion-safe:shrink-0 motion-reduce:min-h-[50svh] motion-reduce:w-full items-center justify-center px-4 sm:px-8 lg:px-12"
     >
       <div className="relative aspect-video w-full max-w-352 overflow-hidden rounded-2xl shadow-2xl">
         <Image

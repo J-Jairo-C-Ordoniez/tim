@@ -20,7 +20,7 @@ export default function WakeMeUpBridgeFrame({
     <figure
       ref={figureRef}
       data-frame
-      className="relative flex h-svh w-screen min-w-screen shrink-0 items-center justify-center overflow-hidden bg-background isolate z-10"
+      className="relative flex motion-safe:h-svh motion-safe:w-screen motion-safe:min-w-screen motion-safe:shrink-0 motion-reduce:min-h-[60svh] motion-reduce:w-full motion-reduce:rounded-2xl items-center justify-center overflow-hidden bg-background isolate z-10"
     >
       <video
         ref={videoRef}

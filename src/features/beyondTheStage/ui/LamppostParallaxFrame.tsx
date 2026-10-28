@@ -17,7 +17,7 @@ export default function LamppostParallaxFrame({
     <section
       ref={sectionRef}
       data-frame
-      className="relative flex h-svh w-screen shrink-0 items-center justify-center overflow-hidden px-6"
+      className="relative flex motion-safe:h-svh motion-safe:w-screen motion-safe:shrink-0 motion-reduce:min-h-[60svh] motion-reduce:w-full items-center justify-center overflow-hidden px-6"
     >
       <figure
         ref={imgTopRef}

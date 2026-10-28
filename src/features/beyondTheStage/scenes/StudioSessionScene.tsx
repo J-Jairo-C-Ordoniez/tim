@@ -184,7 +184,10 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
         vid.pause();
       };
 
-      const horizontalTween = gsap.to(trackEl, {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const horizontalTween = gsap.to(trackEl, {
         x: () => -getScrollDistance(),
         ease: "none",
         scrollTrigger: {
@@ -360,10 +363,26 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
           },
         });
       }
+      });
 
-      return () => {
-        horizontalTween.scrollTrigger?.kill();
-      };
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        const darkens = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-scroll-darken]"));
+        const reveals = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-image-reveal]"));
+        const textFrames = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-frame]"));
+        const characters = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-scroll-character], [data-video-character]"));
+        const targets = [
+          ...darkens,
+          ...reveals,
+          ...textFrames,
+          ...characters,
+          bgStoriesRef.current,
+          videoWakeMeUpRef.current,
+          videoOverlayRef.current,
+        ].filter(Boolean) as HTMLElement[];
+        gsap.set(targets, { autoAlpha: 1, scale: 1, y: 0, clearProps: "transform,opacity,filter" });
+      });
+
+      return () => mm.revert();
     },
     { scope: container, dependencies: [enabled] },
   );
@@ -371,12 +390,12 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
   return (
     <section
       ref={container}
-      className="relative h-svh w-full overflow-hidden bg-background"
+      className="relative motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:overflow-visible w-full bg-background"
       aria-label="Avicii's studio and creative journey"
     >
       <div
         ref={track}
-        className="flex h-full w-max will-change-transform items-center px-8 sm:px-16"
+        className="flex motion-safe:h-full motion-safe:w-max motion-safe:items-center motion-safe:px-8 motion-safe:sm:px-16 motion-reduce:flex-col motion-reduce:w-full motion-reduce:h-auto motion-reduce:items-center motion-reduce:gap-24 motion-reduce:py-24 motion-reduce:px-6 motion-reduce:sm:px-12 will-change-transform"
       >
         <GuitarQuoteFrame />
         <StudioGuitarFrame />
