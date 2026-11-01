@@ -54,7 +54,18 @@ export default function InspirationClosingScene({ enabled }: InspirationClosingS
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set([f1, f2], { autoAlpha: 1, y: 0, scale: 1, clearProps: "transform,opacity" });
+        const frames = [f1, f2];
+        frames.forEach((frame) => {
+          gsap.set(frame, { autoAlpha: 0, y: 14 });
+
+          ScrollTrigger.create({
+            trigger: frame,
+            start: "top 75%",
+            onEnter: () => {
+              gsap.to(frame, { autoAlpha: 1, y: 0, duration: 1.6, ease: "power2.out" });
+            },
+          });
+        });
       });
 
       return () => mm.revert();
@@ -65,7 +76,7 @@ export default function InspirationClosingScene({ enabled }: InspirationClosingS
   return (
     <section
       ref={container}
-      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:flex-col motion-reduce:py-24 motion-reduce:gap-16 w-full items-center justify-center bg-background"
+      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:h-auto motion-reduce:flex-col w-full items-center justify-center bg-background"
       aria-label="What inspires: Final legacy"
     >
       <InspirationLegacyQuoteFrame

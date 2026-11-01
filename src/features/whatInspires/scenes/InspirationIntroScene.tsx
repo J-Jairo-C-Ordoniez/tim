@@ -48,7 +48,15 @@ export default function InspirationIntroScene({ enabled }: InspirationIntroScene
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(f1, { autoAlpha: 1, y: 0, scale: 1, clearProps: "transform,opacity" });
+        gsap.set(f1, { autoAlpha: 0, y: 14 });
+
+        ScrollTrigger.create({
+          trigger: f1,
+          start: "top 75%",
+          onEnter: () => {
+            gsap.to(f1, { autoAlpha: 1, y: 0, duration: 1.6, ease: "power2.out" });
+          },
+        });
       });
 
       return () => mm.revert();
@@ -59,7 +67,7 @@ export default function InspirationIntroScene({ enabled }: InspirationIntroScene
   return (
     <section
       ref={container}
-      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:py-24 w-full items-center justify-center bg-background"
+      className="relative flex h-svh w-full items-center justify-center bg-background"
       aria-label="Inspiration prelude"
     >
       <InspirationIntroFrame

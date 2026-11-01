@@ -49,7 +49,21 @@ export default function InspirationListScene({ enabled }: InspirationListScenePr
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(items, { autoAlpha: 1, y: 0, clearProps: "transform,opacity" });
+        gsap.set(items, { autoAlpha: 0, y: 12 });
+
+        ScrollTrigger.create({
+          trigger: frame,
+          start: "top 75%",
+          onEnter: () => {
+            gsap.to(items, {
+              autoAlpha: 1,
+              y: 0,
+              duration: 1.2,
+              stagger: 0.08,
+              ease: "power2.out",
+            });
+          },
+        });
       });
 
       return () => mm.revert();
@@ -60,7 +74,7 @@ export default function InspirationListScene({ enabled }: InspirationListScenePr
   return (
     <section
       ref={container}
-      className="relative motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:py-24 w-full bg-background"
+      className="relative h-svh overflow-hidden w-full bg-background"
       aria-label="Ways Avicii continues to inspire"
     >
       <InspirationListFrame

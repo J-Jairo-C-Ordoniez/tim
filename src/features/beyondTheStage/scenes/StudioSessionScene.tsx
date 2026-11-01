@@ -366,20 +366,187 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        const darkens = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-scroll-darken]"));
-        const reveals = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-image-reveal]"));
-        const textFrames = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-frame]"));
-        const characters = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-scroll-character], [data-video-character]"));
-        const targets = [
-          ...darkens,
-          ...reveals,
-          ...textFrames,
-          ...characters,
-          bgStoriesRef.current,
-          videoWakeMeUpRef.current,
-          videoOverlayRef.current,
-        ].filter(Boolean) as HTMLElement[];
-        gsap.set(targets, { autoAlpha: 1, scale: 1, y: 0, clearProps: "transform,opacity,filter" });
+        // Keep horizontal scroll — same structure as normal mode but subtler values throughout
+
+        const horizontalTween = gsap.to(trackEl, {
+          x: () => -getScrollDistance(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerEl,
+            start: "top top",
+            end: () => `+=${Math.max(1, getScrollDistance())}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              const vid = videoWakeMeUpRef.current;
+              if (!vid) return;
+
+              const hasReachedVideoFrame = self.progress >= 0.998;
+
+              if (hasReachedVideoFrame) {
+                if (!hasEndedRef.current) {
+                  if (!hasVideoStartedRef.current) {
+                    hasVideoStartedRef.current = true;
+                    gsap.set(trackEl, { x: -getScrollDistance() });
+                    self.scroll(self.end);
+                  }
+                  if (vid.paused && !hasReachedVideoEnd(vid)) {
+                    playWakeMeUp();
+                  }
+                  lockUserScroll();
+                }
+              } else {
+                if (!vid.paused) {
+                  pauseWakeMeUp();
+                }
+              }
+            },
+          },
+        });
+
+        const frameElements = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-frame]"));
+
+        frameElements.forEach((frame, index) => {
+          const characters = Array.from(
+            frame.querySelectorAll<HTMLElement>("[data-scroll-character]"),
+          );
+          const image = frame.querySelector<HTMLElement>("[data-image-reveal]");
+          const darkenedImage = frame.querySelector<HTMLElement>("[data-scroll-darken]");
+          const isFirst = index === 0;
+
+          if (characters.length > 0) {
+            gsap.set(characters, { autoAlpha: 0, y: 12 }); // normal: y 28
+
+            gsap.to(characters, {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.9,              // normal: 0.7
+              stagger: 0.018,             // normal: 0.028 — less ripple
+              ease: "power1.out",
+              scrollTrigger: {
+                trigger: frame,
+                containerAnimation: horizontalTween,
+                start: isFirst ? "left 84%" : "left 76%",
+                end: isFirst ? "left 24%" : "left 18%",
+                scrub: 0.5,
+              },
+            });
+          }
+
+          if (image) {
+            gsap.set(image, { scale: 1.04, autoAlpha: 0.6 }); // normal: scale 1.08, alpha 0.4
+
+            gsap.to(image, {
+              scale: 1,
+              autoAlpha: 1,
+              duration: 1.6,              // normal: 1.4
+              ease: "power1.out",
+              scrollTrigger: {
+                trigger: frame,
+                containerAnimation: horizontalTween,
+                start: isFirst ? "left 99%" : "left 70%",
+                toggleActions: "play reverse play reverse",
+              },
+            });
+          }
+
+          if (darkenedImage) {
+            gsap.fromTo(
+              darkenedImage,
+              { filter: "brightness(1)" },
+              {
+                filter: "brightness(0.62)", // normal: 0.42 — less dramatic darkening
+                ease: "none",
+                scrollTrigger: {
+                  trigger: frame,
+                  containerAnimation: horizontalTween,
+                  start: "left 82%",
+                  end: "left 14%",
+                  scrub: 0.6,
+                },
+              },
+            );
+          }
+        });
+
+        // Parallax: much smaller range — the main motion-sickness risk
+        if (parallaxFrame.current && imgTop.current && imgBottom.current) {
+          gsap.fromTo(
+            imgTop.current,
+            { yPercent: -15, scale: 1.02 }, // normal: -45, 1.06
+            {
+              yPercent: 12,                  // normal: 35
+              scale: 0.99,
+              ease: "none",
+              scrollTrigger: {
+                trigger: parallaxFrame.current,
+                containerAnimation: horizontalTween,
+                start: "left right",
+                end: "right left",
+                scrub: 1,
+              },
+            },
+          );
+
+          gsap.fromTo(
+            imgBottom.current,
+            { yPercent: 15, scale: 0.99 }, // normal: 45, 0.98
+            {
+              yPercent: -12,               // normal: -35
+              scale: 1.02,
+              ease: "none",
+              scrollTrigger: {
+                trigger: parallaxFrame.current,
+                containerAnimation: horizontalTween,
+                start: "left right",
+                end: "right left",
+                scrub: 1,
+              },
+            },
+          );
+        }
+
+        if (frame7Ref.current && bgStoriesRef.current) {
+          gsap.set(bgStoriesRef.current, { scale: 1.05, autoAlpha: 0.5 }); // normal: 1.12, 0.35
+
+          gsap.to(bgStoriesRef.current, {
+            scale: 1.0,
+            autoAlpha: 1,
+            duration: 2.0,               // normal: 1.8
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: frame7Ref.current,
+              containerAnimation: horizontalTween,
+              start: "left 65%",
+              toggleActions: "play reverse play reverse",
+            },
+          });
+        }
+
+        if (frame8Ref.current && videoWakeMeUpRef.current) {
+          gsap.set(videoWakeMeUpRef.current, { scale: 1.04, autoAlpha: 0.5 }); // normal: 1.08, 0.35
+
+          gsap.to(videoWakeMeUpRef.current, {
+            scale: 1.0,
+            autoAlpha: 1,
+            duration: 1.8,               // normal: 1.6
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: frame8Ref.current,
+              containerAnimation: horizontalTween,
+              start: "left 70%",
+              toggleActions: "play reverse play reverse",
+            },
+          });
+        }
+
+        // Overlay stays hidden until video ends (handled by handleTimeUpdate)
+        if (videoOverlayRef.current) {
+          gsap.set(videoOverlayRef.current, { autoAlpha: 0 });
+        }
       });
 
       return () => mm.revert();
@@ -390,12 +557,12 @@ export default function StudioSessionScene({ enabled }: StudioSessionSceneProps)
   return (
     <section
       ref={container}
-      className="relative motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:overflow-visible w-full bg-background"
+      className="relative h-svh overflow-hidden w-full bg-background"
       aria-label="Avicii's studio and creative journey"
     >
       <div
         ref={track}
-        className="flex motion-safe:h-full motion-safe:w-max motion-safe:items-center motion-safe:px-8 motion-safe:sm:px-16 motion-reduce:flex-col motion-reduce:w-full motion-reduce:h-auto motion-reduce:items-center motion-reduce:gap-24 motion-reduce:py-24 motion-reduce:px-6 motion-reduce:sm:px-12 will-change-transform"
+        className="flex h-full w-max items-center px-8 sm:px-16 will-change-transform"
       >
         <GuitarQuoteFrame />
         <StudioGuitarFrame />

@@ -61,7 +61,18 @@ export default function LastShowMemorialScene({ enabled }: LastShowMemorialScene
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set([f1, f2, f3], { autoAlpha: 1, y: 0, scale: 1, clearProps: "transform,opacity" });
+        const frames = [f1, f2, f3];
+        frames.forEach((frame) => {
+          gsap.set(frame, { autoAlpha: 0, y: 14 });
+
+          ScrollTrigger.create({
+            trigger: frame,
+            start: "top 75%",
+            onEnter: () => {
+              gsap.to(frame, { autoAlpha: 1, y: 0, duration: 1.6, ease: "power2.out" });
+            },
+          });
+        });
       });
 
       return () => mm.revert();
@@ -72,7 +83,7 @@ export default function LastShowMemorialScene({ enabled }: LastShowMemorialScene
   return (
     <section
       ref={container}
-      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:flex-col motion-reduce:py-24 motion-reduce:gap-20 w-full items-center justify-center bg-background"
+      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:h-auto motion-reduce:flex-col w-full items-center justify-center bg-background"
       aria-label="Avicii last show closing"
     >
       <LastShowDateFrame frameRef={frame1Ref} />

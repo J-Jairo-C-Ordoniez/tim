@@ -91,10 +91,33 @@ export default function ClosingScene({ enabled }: ClosingSceneProps) {
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(
-          [phraseWrapRef.current, line1Ref.current, line2Ref.current, photoWrapRef.current, imgRef.current],
-          { autoAlpha: 1, y: 0, scale: 1, clearProps: "transform,opacity" },
-        );
+        // Phrase lines: appear sequentially on scroll — subtle y, no scale exit
+        gsap.set(phraseWrapRef.current, { autoAlpha: 1 });
+        gsap.set([line1Ref.current, line2Ref.current], { autoAlpha: 0, y: 14 });
+
+        ScrollTrigger.create({
+          trigger: phraseWrapRef.current,
+          start: "top 75%",
+          onEnter: () => {
+            gsap
+              .timeline()
+              .to(line1Ref.current, { autoAlpha: 1, y: 0, duration: 1.4, ease: "power2.out" })
+              .to(line2Ref.current, { autoAlpha: 1, y: 0, duration: 1.4, ease: "power2.out" }, ">=0.3");
+          },
+        });
+
+        // Portrait: subtle fade + gentle scale on scroll
+        gsap.set(photoWrapRef.current, { autoAlpha: 0 });
+        gsap.set(imgRef.current, { scale: 1.04 }); // normal: 1.08
+
+        ScrollTrigger.create({
+          trigger: photoWrapRef.current,
+          start: "top 75%",
+          onEnter: () => {
+            gsap.to(photoWrapRef.current, { autoAlpha: 1, duration: 1.4, ease: "power2.out" });
+            gsap.to(imgRef.current, { scale: 1.0, duration: 2.0, ease: "power1.out" });
+          },
+        });
       });
 
       return () => mm.revert();
@@ -105,7 +128,7 @@ export default function ClosingScene({ enabled }: ClosingSceneProps) {
   return (
     <section
       ref={container}
-      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:flex-col motion-reduce:py-24 motion-reduce:gap-16 w-full items-center justify-center bg-background"
+      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:h-auto motion-reduce:flex-col w-full items-center justify-center bg-background"
       aria-label="Closing reflection and portrait"
     >
       <ClosingPhraseFrame

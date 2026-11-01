@@ -83,7 +83,23 @@ export default function Credits({ enabled }: CreditsProps) {
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         const blocks = Array.from(container.current!.querySelectorAll<HTMLElement>("[data-credit-block]"));
-        gsap.set(blocks, { autoAlpha: 1, y: 0 });
+        blocks.forEach((block) => {
+          gsap.fromTo(
+            block,
+            { autoAlpha: 0, y: 12 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 1.1,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: block,
+                start: "top 88%",
+                toggleActions: "play none none reverse",
+              },
+            },
+          );
+        });
       });
 
       return () => mm.revert();

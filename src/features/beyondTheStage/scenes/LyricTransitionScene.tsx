@@ -11,22 +11,31 @@ type LyricTransitionSceneProps = {
   enabled: boolean;
 };
 
+const phraseClass =
+  "text-center text-3xl font-light tracking-tight leading-relaxed text-foreground sm:text-5xl md:text-6xl lg:text-7xl will-change-transform";
+
 export default function LyricTransitionScene({ enabled }: LyricTransitionSceneProps) {
   const container = useRef<HTMLElement>(null);
-  const phrase1Ref = useRef<HTMLHeadingElement>(null);
-  const phrase2Ref = useRef<HTMLHeadingElement>(null);
+
+  // Refs for the normal (motion-safe) pinned overlay
+  const phrase1NormalRef = useRef<HTMLHeadingElement>(null);
+  const phrase2NormalRef = useRef<HTMLHeadingElement>(null);
+
+  // Refs for the reduced-motion two-viewport layout
+  const phrase1ReducedRef = useRef<HTMLHeadingElement>(null);
+  const phrase2ReducedRef = useRef<HTMLHeadingElement>(null);
 
   useGSAP(
     () => {
       if (!enabled || !container.current) return;
 
-      const p1 = phrase1Ref.current;
-      const p2 = phrase2Ref.current;
-      if (!p1 || !p2) return;
-
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const p1 = phrase1NormalRef.current;
+        const p2 = phrase2NormalRef.current;
+        if (!p1 || !p2) return;
+
         gsap.set(p1, { autoAlpha: 0, y: 35, scale: 0.94 });
         gsap.set(p2, { autoAlpha: 0, y: 35, scale: 0.94 });
 
@@ -51,7 +60,29 @@ export default function LyricTransitionScene({ enabled }: LyricTransitionScenePr
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set([p1, p2], { autoAlpha: 1, y: 0, scale: 1, clearProps: "transform,opacity" });
+        const p1 = phrase1ReducedRef.current;
+        const p2 = phrase2ReducedRef.current;
+        if (!p1 || !p2) return;
+
+        // Subtle time-based entrance per phrase — no scrub, smaller y, no scale change
+        gsap.set(p1, { autoAlpha: 0, y: 14 });
+        gsap.set(p2, { autoAlpha: 0, y: 14 });
+
+        ScrollTrigger.create({
+          trigger: p1,
+          start: "top 75%",
+          onEnter: () => {
+            gsap.to(p1, { autoAlpha: 1, y: 0, duration: 1.6, ease: "power2.out" });
+          },
+        });
+
+        ScrollTrigger.create({
+          trigger: p2,
+          start: "top 75%",
+          onEnter: () => {
+            gsap.to(p2, { autoAlpha: 1, y: 0, duration: 1.6, ease: "power2.out" });
+          },
+        });
       });
 
       return () => mm.revert();
@@ -62,22 +93,39 @@ export default function LyricTransitionScene({ enabled }: LyricTransitionScenePr
   return (
     <section
       ref={container}
-      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:py-24 w-full items-center justify-center bg-background px-6 sm:px-12"
+      className="relative w-full bg-background motion-safe:h-svh motion-safe:overflow-hidden"
       aria-label="Lyric transition"
     >
-      <div className="relative flex motion-safe:h-48 motion-reduce:h-auto motion-reduce:flex-col motion-reduce:gap-6 w-full max-w-5xl items-center justify-center text-center">
-        <h2
-          ref={phrase1Ref}
-          className="motion-safe:absolute motion-safe:inset-0 motion-reduce:relative flex items-center justify-center text-center text-3xl font-light tracking-tight leading-relaxed text-foreground sm:text-5xl md:text-6xl lg:text-7xl will-change-transform"
-        >
-          might be time
-        </h2>
-        <h2
-          ref={phrase2Ref}
-          className="motion-safe:absolute motion-safe:inset-0 motion-reduce:relative flex items-center justify-center text-center text-3xl font-light tracking-tight leading-relaxed text-foreground sm:text-5xl md:text-6xl lg:text-7xl will-change-transform"
-        >
-          for a better day
-        </h2>
+      {/* ── Normal mode: pinned viewport, phrases overlap and animate in sequence ── */}
+      <div className="motion-safe:absolute motion-safe:inset-0 motion-safe:flex motion-safe:items-center motion-safe:justify-center motion-safe:px-6 motion-safe:sm:px-12 motion-reduce:hidden">
+        <div className="relative h-48 w-full max-w-5xl">
+          <h2
+            ref={phrase1NormalRef}
+            className={`absolute inset-0 flex items-center justify-center ${phraseClass}`}
+          >
+            might be time
+          </h2>
+          <h2
+            ref={phrase2NormalRef}
+            className={`absolute inset-0 flex items-center justify-center ${phraseClass}`}
+          >
+            for a better day
+          </h2>
+        </div>
+      </div>
+
+      {/* ── Reduced-motion mode: each phrase in its own full viewport ── */}
+      <div className="motion-safe:hidden motion-reduce:flex motion-reduce:flex-col motion-reduce:w-full">
+        <div className="flex h-svh w-full items-center justify-center px-6 sm:px-12">
+          <h2 ref={phrase1ReducedRef} className={`max-w-5xl ${phraseClass}`}>
+            might be time
+          </h2>
+        </div>
+        <div className="flex h-svh w-full items-center justify-center px-6 sm:px-12">
+          <h2 ref={phrase2ReducedRef} className={`max-w-5xl ${phraseClass}`}>
+            for a better day
+          </h2>
+        </div>
       </div>
     </section>
   );

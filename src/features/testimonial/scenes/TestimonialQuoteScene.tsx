@@ -75,7 +75,20 @@ export default function TestimonialQuoteScene({ enabled }: TestimonialQuoteScene
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set([p1, p2, p3, p4, p5], { autoAlpha: 1, y: 0, scale: 1, clearProps: "transform,opacity" });
+        // Each part fades in subtly when it enters the viewport — no instant appearance
+        const parts = [p1, p2, p3, p4, p5];
+
+        parts.forEach((part) => {
+          gsap.set(part, { autoAlpha: 0, y: 14 });
+
+          ScrollTrigger.create({
+            trigger: part,
+            start: "top 75%",
+            onEnter: () => {
+              gsap.to(part, { autoAlpha: 1, y: 0, duration: 1.6, ease: "power2.out" });
+            },
+          });
+        });
       });
 
       return () => mm.revert();
@@ -86,7 +99,7 @@ export default function TestimonialQuoteScene({ enabled }: TestimonialQuoteScene
   return (
     <section
       ref={container}
-      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:flex-col motion-reduce:py-24 motion-reduce:gap-16 w-full items-center justify-center bg-background px-6 sm:px-12 md:px-20 lg:px-28"
+      className="relative flex motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:h-auto motion-reduce:flex-col w-full items-center justify-center bg-background px-6 sm:px-12 md:px-20 lg:px-28"
       aria-label="Listener testimony"
     >
       <TestimonialPart1Frame frameRef={part1Ref} />

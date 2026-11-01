@@ -149,10 +149,96 @@ export default function LastShowGalleryScene({ enabled }: LastShowGalleryScenePr
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
+        if (titleRef.current) {
+          gsap.set(titleRef.current, { autoAlpha: 0, y: 16 });
+          gsap.to(titleRef.current, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 1.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: containerEl,
+              start: "top 80%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        }
+
+        const horizontalTween = gsap.to(trackEl, {
+          x: () => -getScrollDistance(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerEl,
+            start: "top top",
+            end: () => `+=${Math.max(1, getScrollDistance())}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // Subtle, minimal parallax to avoid motion sickness
+        const imgEls = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-parallax-img]"));
+        imgEls.forEach((img, i) => {
+          const direction = i % 2 === 0 ? 1 : -1;
+          gsap.fromTo(
+            img,
+            { yPercent: direction * 2 },
+            {
+              yPercent: direction * -2,
+              ease: "none",
+              scrollTrigger: {
+                trigger: img.closest("[data-gallery-card]") ?? img,
+                containerAnimation: horizontalTween,
+                start: "left right",
+                end: "right left",
+                scrub: true,
+              },
+            },
+          );
+        });
+
         const cards = Array.from(trackEl.querySelectorAll<HTMLElement>("[data-gallery-card]"));
+        cards.forEach((card) => {
+          gsap.fromTo(
+            card,
+            { autoAlpha: 0.6, scale: 0.98 },
+            {
+              autoAlpha: 1,
+              scale: 1,
+              duration: 1.4,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: card,
+                containerAnimation: horizontalTween,
+                start: "left 88%",
+                toggleActions: "play reverse play reverse",
+              },
+            },
+          );
+        });
+
         const desc = trackEl.querySelector<HTMLElement>("[data-centerpiece-desc]");
-        const targets = [titleRef.current, ...cards, desc].filter(Boolean) as HTMLElement[];
-        gsap.set(targets, { autoAlpha: 1, y: 0, scale: 1, clearProps: "transform,opacity" });
+        if (desc) {
+          gsap.fromTo(
+            desc,
+            { autoAlpha: 0, y: 8 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 1.4,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: desc,
+                containerAnimation: horizontalTween,
+                start: "left 75%",
+                toggleActions: "play reverse play reverse",
+              },
+            },
+          );
+        }
       });
 
       return () => mm.revert();
@@ -164,12 +250,12 @@ export default function LastShowGalleryScene({ enabled }: LastShowGalleryScenePr
     <>
       <section
         ref={container}
-        className="relative motion-safe:h-svh motion-safe:overflow-hidden motion-reduce:min-h-svh motion-reduce:h-auto motion-reduce:overflow-visible w-full bg-background"
+        className="relative h-svh overflow-hidden w-full bg-background"
         aria-label="Avicii's Final Show Gallery"
       >
         <div
           ref={track}
-          className="flex motion-safe:h-full motion-safe:w-max motion-safe:items-center motion-reduce:flex-col motion-reduce:w-full motion-reduce:h-auto motion-reduce:items-center motion-reduce:gap-16 motion-reduce:py-24 will-change-transform px-8 sm:px-16 gap-5 sm:gap-7"
+          className="flex h-full w-max items-center will-change-transform px-8 sm:px-16 gap-5 sm:gap-7"
         >
           <LastShowTitlePanel titleRef={titleRef} title={lastShowData.title} />
 
